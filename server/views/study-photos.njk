@@ -1,0 +1,66 @@
+{% set page_title = "Home" %}
+{% extends "_layout.njk" %}
+
+{% block subheader %}
+
+    <header class="bg-white shadow">
+        <div class="grid max-w-7xl grid-cols-3 gap-4 mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="col-span-2">
+                <p class="text-sm font-semibold tracking-wider leading-tight uppercase text-gray-400">Step 1 of 3
+                </p>
+                <h1 class="text-3xl font-semibold leading-tight text-gray-900">
+                    Study Photos
+                </h1>
+                <p class="text-xl font-regular leading-tight text-gray-500">Try to memorize what you see.</p>
+            </div>
+            <div class="col-span-1 flex flex-col justify-center text-right">
+                {{ s3rp_timer(label=timer.label, minutes=timer.length, redirect_to=timer.destination) }}
+            </div>
+        </div>
+    </header>
+{% endblock subheader %}
+
+{% block main %}
+    <style>
+        {% for image in images %}
+            .image-{{loop.index0}}{
+                background-image: url({{ image }});
+            }
+        {% endfor %}
+    </style>
+    <script>
+        ;
+        (async function () {
+            const waiting = []
+            function addImageProcess(src) {
+                return new Promise((resolve, reject) => {
+                    let img = new Image()
+                    img.onload = () => resolve(img.height)
+                    img.onerror = reject
+                    img.src = src
+                })
+            }
+            {% for image in images %}
+                waiting.push(addImageProcess('{{ image }}'))
+            {% endfor %}
+            await Promise.all(waiting)
+            for (let i = 0; i < waiting.length; i++) {
+                document
+                    .getElementById(`image-${i}`)
+                    .style
+                    .opacity = 1
+            }
+            if (window.startTimer) {
+                window.startTimer()
+                window.startTimer = null
+            }
+        })()
+    </script>
+    <main>
+        <div class="mx-auto my-6 grid grid-rows-4 grid-cols-4 grid-flow-row gap-3" style="max-width: calc(600px + 3rem);">
+            {% for image in images %}
+                <div class="bg-gray-300 bg-cover bg-center image-{{ loop.index0 }} opacity-0 transition-opacity duration-150 ease-in-out" style="height: 150px;" id="image-{{ loop.index0 }}"></div>
+            {% endfor %}
+        </div>
+    </main>
+{% endblock main %}
