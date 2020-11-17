@@ -9,7 +9,7 @@ t.test('selects random genre', t => {
   const output = Genre.getRandom()
   // Then
   t.ok(output)
-  t.contains(output, Object.values(Genre))
+  t.ok(Object.values(Genre).includes(output))
 })
 
 t.test('does not return an excluded genre', t => {

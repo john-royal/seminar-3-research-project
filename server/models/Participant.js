@@ -19,7 +19,7 @@ class Participant {
     /** @type {Survey?} */
     this.survey = input.survey
     /** @type {Trial[]} */
-    this.trials = input.trials ?? []
+    this.trials = input.trials || []
 
     if (this.survey && !(this.survey instanceof Survey)) {
       this.survey = new Survey(this.survey)
@@ -61,7 +61,7 @@ class Participant {
 
 Participant.Store = class {
   /**
-   * Create profile store
+   * Create participant store
    * @param {import('keyv')} keyv
    */
   constructor (keyv) {
@@ -97,6 +97,6 @@ module.exports = Participant
 
 /**
  * @callback SaveFunction
- * @param {Profile} profile
+ * @param {Participant} participant
  * @returns {Promise}
  */
