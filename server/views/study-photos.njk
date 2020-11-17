@@ -24,7 +24,7 @@
     <style>
         {% for image in images %}
             .image-{{loop.index0}}{
-                background-image: url({{ image }});
+                background-image: url({{ image.path }});
             }
         {% endfor %}
     </style>
@@ -41,7 +41,7 @@
                 })
             }
             {% for image in images %}
-                waiting.push(addImageProcess('{{ image }}'))
+                waiting.push(addImageProcess('{{ image.path }}'))
             {% endfor %}
             await Promise.all(waiting)
             for (let i = 0; i < waiting.length; i++) {
@@ -49,10 +49,6 @@
                     .getElementById(`image-${i}`)
                     .style
                     .opacity = 1
-            }
-            if (window.startTimer) {
-                window.startTimer()
-                window.startTimer = null
             }
         })()
     </script>
