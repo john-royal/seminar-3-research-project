@@ -23,8 +23,12 @@
     "fastify-cli": "^2.5.1",
     "fastify-plugin": "^3.0.0",
     "fastify-static": "^3.3.0",
+    "keyv": "^4.0.3",
+    "keyv-file": "^0.2.0",
+    "normalize-email": "^1.1.1",
     "nunjucks": "^3.2.2",
-    "point-of-view": "^4.6.0"
+    "point-of-view": "^4.6.0",
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "@webpack-cli/init": "^1.0.3",
