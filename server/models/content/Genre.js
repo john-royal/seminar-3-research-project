@@ -4,13 +4,13 @@ const { getRandomElementFromArray } = require('../../util')
 
 /** @enum {string} */
 const Genre = {
-  CLASSICAL: 'Classical',
-  JAZZ: 'Jazz',
-  POP: 'Pop',
-  HIP_HOP: 'Hip-Hop/Rap',
-  RB: 'R&B/Soul',
-  COUNTRY: 'Country',
-  ROCK: 'Rock'
+  CLASSICAL: 'classical',
+  JAZZ: 'jazz',
+  POP: 'pop',
+  HIP_HOP_RAP: 'hip-hop-rap',
+  RB_SOUL: 'rb-soul',
+  COUNTRY: 'country',
+  ROCK: 'rock'
 }
 
 Object.defineProperty(Genre, 'all', {

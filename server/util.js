@@ -1,5 +1,6 @@
 'use strict'
 
+const { strict: assert } = require('assert')
 const crypto = require('crypto')
 
 const internals = {}
@@ -44,11 +45,21 @@ internals.csprng = (min, max) => {
 }
 
 /**
+ * Run some assertions to make sure the given array is valid.
+ * @param {*[]} array
+ */
+internals.checkArray = array => {
+  assert(Array.isArray(array), 'Input must be an array')
+  assert(array.length > 0, 'Array cannot be empty')
+}
+
+/**
  * Randomly select an element from an array.
  * This uses a CSPRNG internally.
  * @param {*[]} array
  */
 exports.getRandomElementFromArray = array => {
+  internals.checkArray(array)
   const randomNumber = internals.csprng(0, array.length - 1)
   return array[randomNumber]
 }
@@ -60,10 +71,13 @@ exports.getRandomElementFromArray = array => {
  * @param {number} numberOfElements
  */
 exports.getRandomElementsFromArray = (array, numberOfElements) => {
+  internals.checkArray(array)
   const result = new Array(numberOfElements)
   let length = array.length
   const usedElements = new Array(length)
-  if (numberOfElements > length) { throw new RangeError('More elements requested than available') }
+  if (numberOfElements > length) {
+    throw new RangeError(`More elements requested than available (requested ${numberOfElements} from array of length ${array.length}; array contents: ${array.join()})`)
+  }
   while (numberOfElements--) {
     const index = internals.csprng(0, length)
     result[numberOfElements] = array[index in usedElements ? usedElements[index] : index]

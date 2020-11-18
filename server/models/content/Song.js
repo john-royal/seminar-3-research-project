@@ -1,5 +1,6 @@
 'use strict'
 
+const { strict: assert } = require('assert')
 const { getRandomElementFromArray } = require('../../util')
 const songs = require('../../../public/songs/songs.json')
 
@@ -31,6 +32,7 @@ Song.all = songs.map(song => new Song(song))
  * @returns {Song}
  */
 Song.getRandom = (genre, excludeSongs = []) => {
+  assert(genre, 'Genre must be defined')
   const options = [...Song.all]
     .filter(song => {
       return song.genre === genre

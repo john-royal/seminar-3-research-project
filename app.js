@@ -2,9 +2,16 @@
 
 const path = require('path')
 const AutoLoad = require('fastify-autoload')
+const DataService = require('./server/services/data')
+const { KeyvFile } = require('keyv-file')
 
 module.exports = async function (fastify, opts) {
   // Place here your custom code!
+  fastify.register(DataService, {
+    store: opts.store || new KeyvFile({
+      filename: path.join(__dirname, 'data.json')
+    })
+  })
 
   // This loads all plugins defined in plugins
   // those should be support plugins that are reused

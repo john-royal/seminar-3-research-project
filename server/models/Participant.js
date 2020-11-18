@@ -68,6 +68,23 @@ Participant.Store = class {
     this.keyv = keyv
 
     this.findByIdOrCreate = this.findByIdOrCreate.bind(this)
+    this.findById = this.findById.bind(this)
+  }
+
+  /**
+   * Find a participant record with the given ID.
+   * @param {string} id
+   * @returns {Promise<Participant?>}
+   */
+  async findById (id) {
+    const saveFunction = participant => {
+      return this.keyv.set(id, participant)
+    }
+    const existingParticipant = await this.keyv.get(id)
+    if (existingParticipant) {
+      return new Participant(existingParticipant, saveFunction)
+    }
+    return null
   }
 
   /**

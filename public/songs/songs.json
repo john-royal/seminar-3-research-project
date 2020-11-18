@@ -2,154 +2,154 @@
   {
     "name": "Pan et les Oiseaux",
     "artist": "Jules Mouquet",
-    "genre": "Classical",
+    "genre": "classical",
     "url": "https://www.youtube.com/watch?v=Re7j4ETS1J0&ab_channel=DoraSeres-Topic",
     "path": "/static/classical/pan-et-les-oiseaux.mp3"
   },
   {
     "name": "Mélancolie",
     "artist": "Francis Poulenc",
-    "genre": "Classical",
+    "genre": "classical",
     "url": "https://www.youtube.com/watch?v=jLZaq5dtyQI",
     "path": "/static/classical/melancolie.mp3"
   },
   {
     "name": "Les berceaux Op. 23 No.1",
     "artist": "Gabriel Fauré",
-    "genre": "Classical",
+    "genre": "classical",
     "url": "https://www.youtube.com/watch?v=BYtolN6lLz0",
     "path": "/static/classical/les-berceaux-op-23-no1.mp3"
   },
   {
     "name": "Oblivion",
     "artist": "Astor Piazzolla",
-    "genre": "Classical",
+    "genre": "classical",
     "url": "https://www.youtube.com/watch?v=N-ke78zQR6A&ab_channel=Of%C3%A8liaSala-Topic",
     "path": "/static/classical/oblivion.mp3"
   },
   {
     "name": "Back In The U.S.S.R.",
     "artist": "The Beatles",
-    "genre": "Rock",
+    "genre": "rock",
     "url": "https://www.youtube.com/watch?v=0ArlUSVDQIw&ab_channel=TheBeatles-Topic",
     "path": "/static/rock/back-in-the-ussr.mp3"
   },
   {
     "name": "About a Girl",
     "artist": "Nirvana",
-    "genre": "Rock",
+    "genre": "rock",
     "url": "https://www.youtube.com/watch?v=JIx2H-plXdU&ab_channel=Nirvana-Topic",
     "path": "/static/rock/about-a-girl.mp3"
   },
   {
     "name": "Dead on Time",
     "artist": "Queen",
-    "genre": "Rock",
+    "genre": "rock",
     "url": "https://www.youtube.com/watch?v=729hg8ylbMw&ab_channel=Queen-Topic",
     "path": "/static/rock/dead-on-time.mp3"
   },
   {
     "name": "Blues Walk",
     "artist": "Lou Donaldson",
-    "genre": "Jazz",
+    "genre": "jazz",
     "url": "https://www.youtube.com/watch?v=Liy9tw03p1I",
     "path": "/static/jazz/blues-walk.mp3"
   },
   {
     "name": "Day Tripper",
     "artist": "Ramsey Lewis",
-    "genre": "Jazz",
+    "genre": "jazz",
     "url": "https://www.youtube.com/watch?v=lTqqxj5s1nc",
     "path": "/static/jazz/day-tripper.mp3"
   },
   {
     "name": "Frenesi",
     "artist": "Julie London",
-    "genre": "Jazz",
+    "genre": "jazz",
     "url": "https://www.youtube.com/watch?v=F2IGBGFeC5w",
     "path": "/static/jazz/frenesi.mp3"
   },
   {
     "name": "New Person, Same Old Mistakes",
     "artist": "Tame Impala",
-    "genre": "Pop",
+    "genre": "pop",
     "url": "https://www.youtube.com/watch?v=tEXYfT_G0W0&ab_channel=TameImpala-Topic",
     "path": "/static/pop/new-person-same-old-mistakes.mp3"
   },
   {
     "name": "my future",
     "artist": "Billie Eilish",
-    "genre": "Pop",
+    "genre": "pop",
     "url": "https://www.youtube.com/watch?v=LRq3xHN2s_c",
     "path": "/static/pop/my-future.mp3"
   },
   {
     "name": "Adore You",
     "artist": "Harry Styles",
-    "genre": "Pop",
+    "genre": "pop",
     "url": "https://www.youtube.com/watch?v=iquhBgM-Qv0",
     "path": "/static/pop/adore-you.mp3"
   },
   {
     "name": "Coming Of Age",
     "artist": "JAY-Z",
-    "genre": "Hip-Hop/Rap",
+    "genre": "hip-hop-rap",
     "url": "https://www.youtube.com/watch?v=3HjubPJ-Xjk",
     "path": "/static/hip-hop/coming-of-age.mp3"
   },
   {
     "name": "All Falls Down",
     "artist": "Kanye West feat. Syleena Johnson",
-    "genre": "Hip-Hop/Rap",
+    "genre": "hip-hop-rap",
     "url": "https://www.youtube.com/watch?v=uHcP8XX5IJA",
     "path": "/static/hip-hop/all-falls-down.mp3"
   },
   {
     "name": "Yikes",
     "artist": "Nicki Minaj",
-    "genre": "Hip-Hop/Rap",
+    "genre": "hip-hop-rap",
     "url": "https://www.youtube.com/watch?v=LOVxwVvUe_c",
     "path": "/static/hip-hop/yikes.mp3"
   },
   {
     "name": "Vision of Love",
     "artist": "Mariah Carey",
-    "genre": "R&B/Soul",
+    "genre": "rb-soul",
     "url": "https://www.youtube.com/watch?v=KjZHh_C7IEo",
     "path": "/static/rb/vision-of-love.mp3"
   },
   {
     "name": "Love",
     "artist": "Keyshia Cole",
-    "genre": "R&B/Soul",
+    "genre": "rb-soul",
     "url": "https://www.youtube.com/watch?v=wZaotY2V3gY",
     "path": "/static/rb/love.mp3"
   },
   {
     "name": "Why Don’t We Fall in Love",
     "artist": "Amerie",
-    "genre": "R&B/Soul",
+    "genre": "rb-soul",
     "url": "https://www.youtube.com/watch?v=vvTbnDdgVP8",
     "path": "/static/rb/why-don-t-we-fall-in-love.mp3"
   },
   {
     "name": "Before He Cheats",
     "artist": "Carrie Underwood",
-    "genre": "Country",
+    "genre": "country",
     "url": "https://www.youtube.com/watch?v=bM9M8f26s3Q",
     "path": "/static/country/before-he-cheats.mp3"
   },
   {
     "name": "Back To December",
     "artist": "Taylor Swift",
-    "genre": "Country",
+    "genre": "country",
     "url": "https://www.youtube.com/watch?v=rwLPinzVb9Y",
     "path": "/static/country/back-to-december.mp3"
   },
   {
     "name": "Where Did You Sleep Last Night",
     "artist": "Jake Blount",
-    "genre": "Country",
+    "genre": "country",
     "url": "https://www.youtube.com/watch?v=txQb-IU8AXc",
     "path": "/static/country/where-did-you-sleep-last-night.mp3"
   }

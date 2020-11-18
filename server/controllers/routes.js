@@ -4,8 +4,6 @@ const { Photo } = require('../models/content')
 
 const routes = [
   page({ url: '/', view: 'home' }),
-  page({ url: '/register', view: 'register' }),
-  page({ url: '/survey', view: 'survey' }),
   {
     method: 'GET',
     url: '/steps/1',

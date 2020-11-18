@@ -3,7 +3,7 @@
 
 {% block main %}
     {% call components.card(title = "Survey Questions", subtitle = "Please choose the answer that best represents you.") %}
-    {{ forms.radio(name="Age", label="How old are you?", options={
+    {{ forms.radio(name="approximate-age", label="How old are you?", options={
         "under-18": "Under 18",
         "18-24": "Between 18 and 24",
         "25-34": "Between 25 and 34",
@@ -16,14 +16,14 @@
         "classical": "Classical",
         "jazz": "Jazz",
         "pop": "Pop",
-        "hip-hop": "Hip-Hop/Rap",
-        "rb": "R&B/Soul",
+        "hip-hop-rap": "Hip-Hop/Rap",
+        "rb-soul": "R&B/Soul",
         "country": "Country",
         "rock": "Rock"
     }) }}
     {{ forms.radio(name="prefers-music-while-studying", label="Do you listen to music while studying?", options={
-        "true": "Yes",
-        "false": "No"
+        "yes": "Yes",
+        "no": "No"
     }) }}
     {% endcall %}
     <script>

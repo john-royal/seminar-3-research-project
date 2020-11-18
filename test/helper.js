@@ -10,7 +10,9 @@ const App = require('../app')
 // Fill in this config with all the configurations
 // needed for testing the application
 function config () {
-  return {}
+  return {
+    store: new Map()
+  }
 }
 
 // automatically build and tear down our instance
