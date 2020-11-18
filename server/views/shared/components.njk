@@ -1,0 +1,67 @@
+{% macro card(title, subtitle) %}
+    <style>
+        @media (min-width: 640px) {
+            .card {
+                width: 480px;
+            }
+            .bg-white.has-card {
+                background-color: rgba(229,231,235,var(--bg-opacity));
+            }
+        }
+    </style>
+    <main class="mx-auto my-5 w-full card">
+        <form id="form" method="POST">
+            <div class="sm:shadow rounded-md">
+                <div class="px-6 py-2 sm:py-6 bg-white rounded-t-md">
+                    <div class="mb-2">
+                        <h1 class="text-2xl font-medium leading-normal text-gray-900">
+                            {{ title }}
+                        </h1>
+                        <p class="text-sm leading-normal text-gray-400">
+                            {{ subtitle }}
+                        </p>
+                    </div>
+                    {{ caller() }}
+                </div>
+                <div class="px-4 py-3 sm:bg-gray-50 text-right sm:p-6 rounded-b-md">
+                    <button class="ml-auto py-2 px-4 border flex border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-600 shadow-sm hover:bg-blue-500 focus:outline-none focus:shadow-outline-blue active:bg-blue-600 transition duration-150 ease-in-out">
+                        Next
+                    </button>
+                </div>
+            </div>
+        </form>
+    </main>
+{% endmacro %}
+
+{% macro link(label, destination) %}
+    <div class="my-8 h-12 mx-auto text-center">
+        <a href="{{ destination }}" class="mx-auto rounded-md shadow px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition duration-150 ease-in-out sm:py-4 md:text-lg md:px-10">
+            {{ label }}
+        </a>
+    </div>
+{% endmacro %}
+
+{% macro splash(heading, subheading, caption) %}
+    <div></div>
+    <main class="mx-auto max-w-md my-10 sm:my-auto text-center">
+        {% if caption %}
+            <p class="text-md font-semibold tracking-wider leading-tight uppercase text-gray-400">
+                {{ caption }}
+            </p>
+        {% endif %}
+        <h1 class="text-2xl sm:text-4xl mt-1 mb-5 font-semibold leading-tight text-gray-900">
+            {{ heading }}
+        </h1>
+        {% for line in subheading %}
+            <p class="text-lg sm:text-2xl font-regular text-gray-500 {{ '' if loop.last else 'mb-3' }}">{{ line }}</p>
+        {% endfor %}
+    </main>
+    {{ caller() }}
+{% endmacro %}
+
+{% macro timer(label, minutes, redirect_to) %}
+    <p class="text-base font-regular leading-tight text-gray-500">{{ label }}</p>
+    <p class="text-2xl font-light leading-tight text-gray-900 tabular-nums" data-timer="{{ minutes }}" data-timer-redirect="{{ redirect_to }}">
+        {{ minutes }}:00
+    </p>
+{% endmacro %}

@@ -1,8 +1,7 @@
 {% set page_title = "Home" %}
-{% extends "_layout.njk" %}
+{% extends "shared/layout.njk" %}
 
 {% block subheader %}
-
     <header class="bg-white shadow">
         <div class="grid max-w-7xl grid-cols-3 gap-4 mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="col-span-2">
@@ -14,7 +13,7 @@
                 <p class="text-xl font-regular leading-tight text-gray-500">Try to memorize what you see.</p>
             </div>
             <div class="col-span-1 flex flex-col justify-center text-right">
-                {{ s3rp_timer(label=timer.label, minutes=timer.length, redirect_to=timer.destination) }}
+                {{ components.timer(label=timer.label, minutes=timer.length, redirect_to=timer.destination) }}
             </div>
         </div>
     </header>

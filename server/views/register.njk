@@ -1,10 +1,10 @@
 {% set page_title = "Register" %}
-{% extends "_layout.njk" %}
+{% extends "shared/layout.njk" %}
 
 {% block main %}
-    {% call card(title = "Personal Information", subtitle = "We'll use this information to keep track of responses.") %}
-    {{ input(type="text", name="name", label="Name", placeholder="Jane Doe") }}
-    {{ input(type="email", name="email", label="Email address", placeholder="jane.doe@macaulay.cuny.edu") }}
+    {% call components.card(title = "Personal Information", subtitle = "We'll use this information to keep track of responses.") %}
+    {{ forms.input(type="text", name="name", label="Name", placeholder="Jane Doe") }}
+    {{ forms.input(type="email", name="email", label="Email address", placeholder="jane.doe@macaulay.cuny.edu") }}
     {% endcall %}
     <script>
         document.getElementById('form').onsubmit = e => {
