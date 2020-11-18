@@ -27,9 +27,6 @@
     }) }}
     {% endcall %}
     <script>
-        document.getElementById('form').onsubmit = e => {
-            e.preventDefault()
-            Turbolinks.visit('/steps/1')
-        }
+        window.NEXT_SCREEN = '/steps/1'
     </script>
 {% endblock main %}

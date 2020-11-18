@@ -42,7 +42,7 @@ Routes.getSurvey = {
   url: '/register/survey',
   preHandler (request, reply, done) {
     if (!request.participant) {
-      return reply.redirect('/register/profile')
+      return reply.redirect('/')
     }
     done()
   },

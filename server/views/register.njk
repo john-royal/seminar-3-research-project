@@ -7,9 +7,6 @@
     {{ forms.input(type="email", name="email", label="Email address", placeholder="jane.doe@macaulay.cuny.edu") }}
     {% endcall %}
     <script>
-        document.getElementById('form').onsubmit = e => {
-            e.preventDefault()
-            Turbolinks.visit('/survey')
-        }
+        window.NEXT_SCREEN = '/register/survey'
     </script>
 {% endblock main %}

@@ -1,13 +1,13 @@
 {% macro input(type, name, label, placeholder) %}
     <div class="py-2">
         <label for="{{ name }}" class="block text-sm font-medium leading-5 text-gray-700">{{ label }}</label>
-        <input id="{{ name }}" type="{{ type }}" placeholder="{{ placeholder }}" class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+        <input id="{{ name }}" name="{{ name }}" type="{{ type }}" placeholder="{{ placeholder }}" class="mt-1 form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" required>
     </div>
 {% endmacro %}
 
 {% macro option(name, label, value) %}
     <div class="flex items-center py-1">
-        <input id="{{ value }}" name="{{ name }}" type="radio" class="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out">
+        <input id="{{ value }}" name="{{ name }}" value="{{ value }}" type="radio" class="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out">
         <label for="{{ value }}" class="ml-3">
             <span class="block text-sm leading-5 font-regular text-gray-700">{{ label }}</span>
         </label>
