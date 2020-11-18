@@ -1,12 +1,14 @@
 {% set page_title = "Home" %}
 {% extends "shared/layout.njk" %}
 
+{% block scripts %}
+    <script src="/static/js/break.js"></script>
+{% endblock scripts %}
+
 {% block main %}
-    {% call components.splash(heading = "Take a Break", subheading = [
-        "Come back in a few minutes."
-    ], caption = "Step 2 of 3") %}
-        <div class="my-8 h-12 mx-auto text-center">
-            {{ components.timer(label="Next step will be available in", minutes=timer.length, redirect_to=timer.redirect) }}
-        </div>
+    {% call components.splash(heading = "Take a Break", subheading = ["Come back in a few minutes."], caption = "Step 2 of 3") %}
+    <div class="my-8 h-12 mx-auto text-center">
+        {{ components.timer(label="Next step will be available in", minutes=timer.length, redirect_to=timer.redirect) }}
+    </div>
     {% endcall %}
 {% endblock main %}

@@ -20,23 +20,11 @@ class Timer {
   /** @param {HTMLElement} element */
   constructor (element) {
     this.element = element
-    this.length = Number(element.dataset.timer)
-    this.destination = element.dataset.timerRedirect
+    this.length = Number(element.dataset.timerLength)
     this.isCancelled = false
 
     this.cancel = this.cancel.bind(this)
     this.run = this.run.bind(this)
-  }
-
-  static compare (timer1, timer2) {
-    return timer1.id === timer2.id && timer1.length === timer2.length && timer1.destination === timer2.destination
-  }
-
-  static init () {
-    const element = document.querySelector('[data-timer]')
-    if (element) {
-      return new Timer(element)
-    }
   }
 
   cancel () {
@@ -46,6 +34,14 @@ class Timer {
 
   async run () {
     console.log(`[Timer] Starting ${this.length} minute timer`)
+
+    // Cancel automatically if page is closed
+    const cancel = () => {
+      this.cancel()
+      document.removeEventListener('turbolinks:before-visit', cancel)
+    }
+    document.addEventListener('turbolinks:before-visit', cancel)
+
     for (let seconds = this.length * 60; seconds >= 0; seconds--) {
       this.element.textContent = internals.formatTime(seconds)
       await internals.timeout(1000)
@@ -54,7 +50,28 @@ class Timer {
         throw new Error('Timer cancelled')
       }
     }
-    console.log(`[Timer] Completed ${this.length} minute timer; should now redirect to ${this.destination}`)
+    console.log(`[Timer] Completed ${this.length} minute timer`)
+  }
+
+  static createWithDefaults () {
+    const onLoad = () => {
+      const element = document.querySelector('[data-timer-length]')
+      const redirect = element.dataset.timerRedirect
+      const timer = new Timer(element)
+      window.timer = timer
+      if (timer) {
+        timer.run()
+          .then(() => {
+            Turbolinks.visit(redirect) // eslint-disable-line no-undef
+          })
+          .catch(error => {
+            console.error(error)
+          })
+      }
+      document.removeEventListener('turbolinks:load', onLoad)
+    }
+
+    document.addEventListener('turbolinks:load', onLoad)
   }
 }
 

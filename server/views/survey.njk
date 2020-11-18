@@ -1,6 +1,13 @@
 {% set page_title = "Survey" %}
 {% extends "shared/layout.njk" %}
 
+{% block scripts %}
+    <script src="/static/js/form.js"></script>
+    <script>
+        window.NEXT_SCREEN = '/trials/1/study-photos'
+    </script>
+{% endblock scripts %}
+
 {% block main %}
     {% call components.card(title = "Survey Questions", subtitle = "Please choose the answer that best represents you.") %}
     {{ forms.radio(name="approximate-age", label="How old are you?", options={
@@ -26,7 +33,4 @@
         "no": "No"
     }) }}
     {% endcall %}
-    <script>
-        window.NEXT_SCREEN = '/trials/1/study-photos'
-    </script>
 {% endblock main %}

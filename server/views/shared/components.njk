@@ -61,7 +61,7 @@
 
 {% macro timer(label, minutes, redirect_to) %}
     <p class="text-base font-regular leading-tight text-gray-500">{{ label }}</p>
-    <p class="text-2xl font-light leading-tight text-gray-900 tabular-nums" data-timer="{{ minutes }}" data-timer-redirect="{{ redirect_to }}">
+    <p class="text-2xl font-light leading-tight text-gray-900 tabular-nums" data-timer-length="{{ minutes }}" data-timer-redirect="{{ redirect_to }}">
         {{ minutes }}:00
     </p>
 {% endmacro %}

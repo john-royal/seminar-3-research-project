@@ -1,12 +1,16 @@
 {% set page_title = "Register" %}
 {% extends "shared/layout.njk" %}
 
+{% block scripts %}
+    <script src="/static/js/form.js"></script>
+    <script>
+        window.NEXT_SCREEN = '/register/survey'
+    </script>
+{% endblock scripts %}
+
 {% block main %}
     {% call components.card(title = "Personal Information", subtitle = "We'll use this information to keep track of responses.") %}
     {{ forms.input(type="text", name="name", label="Name", placeholder="Jane Doe") }}
     {{ forms.input(type="email", name="email", label="Email address", placeholder="jane.doe@macaulay.cuny.edu") }}
     {% endcall %}
-    <script>
-        window.NEXT_SCREEN = '/register/survey'
-    </script>
 {% endblock main %}

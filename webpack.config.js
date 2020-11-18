@@ -2,6 +2,8 @@
 
 const webpack = require('webpack')
 
+const path = require('path')
+
 /*
  * SplitChunksPlugin is enabled by default and replaced
  * deprecated CommonsChunkPlugin. It automatically identifies modules which
@@ -27,7 +29,16 @@ const TerserPlugin = require('terser-webpack-plugin')
 
 module.exports = {
   mode: 'development',
-  entry: './assets/entry.js',
+  entry: {
+    global: './assets/js/global.js',
+    break: './assets/js/break.js',
+    form: './assets/js/form.js',
+    'memory-test': './assets/js/memory-test.js'
+  },
+  output: {
+    path: path.join(__dirname, 'dist/js'),
+    filename: '[name].js'
+  },
   plugins: [new webpack.ProgressPlugin()],
 
   module: {
