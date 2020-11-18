@@ -15,13 +15,13 @@ t.test('returns requested number of photos', t => {
 
 t.test('does not repeat photos', t => {
   // Given
-  t.plan(25)
+  t.plan(48)
   // When
-  const output = Photo.getRandom(25)
+  const output = Photo.getRandom(48)
   // Then
   const alreadyShown = []
   for (const photo of output) {
-    t.notOk(alreadyShown.includes(photo))
-    alreadyShown.push(photo)
+    t.notOk(alreadyShown.includes(photo.number), `Photo must only be used once; photo ${photo.number} found more than once`)
+    alreadyShown.push(photo.number)
   }
 })

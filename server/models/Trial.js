@@ -48,12 +48,12 @@ Trial.generate = survey => {
   const controlTrial = new Trial({
     type: Trial.Type.CONTROL,
     song: null,
-    photosDisplayed: photos.slice(0, 15)
+    photosDisplayed: photos.slice(0, 16)
   })
   const preferredGenreTrial = new Trial({
     type: Trial.Type.PREFERRED_GENRE,
     song: Song.getRandom(survey.preferredGenre),
-    photosDisplayed: photos.slice(32, 47)
+    photosDisplayed: photos.slice(16, 32)
   })
 
   const randomAssignedGenre = Genre.getRandom([
@@ -65,7 +65,7 @@ Trial.generate = survey => {
     song: Song.getRandom(randomAssignedGenre, [
       preferredGenreTrial.song
     ]),
-    photosDisplayed: photos.slice(16, 31)
+    photosDisplayed: photos.slice(32, 48)
   })
 
   const classicalTrial = new Trial({
@@ -74,7 +74,7 @@ Trial.generate = survey => {
       preferredGenreTrial.song,
       randomAssignedGenreTrial.song
     ]),
-    photosDisplayed: photos.slice(48, 63)
+    photosDisplayed: photos.slice(48, 64)
   })
 
   const trials = shuffleArray([

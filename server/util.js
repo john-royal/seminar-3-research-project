@@ -67,21 +67,23 @@ exports.getRandomElementFromArray = array => {
 /**
  * Randomly select the requested number of elements from an array.
  * This uses a CSPRNG internally.
- * @param {*[]} array
+ * @param {*[]} source
  * @param {number} numberOfElements
  */
-exports.getRandomElementsFromArray = (array, numberOfElements) => {
-  internals.checkArray(array)
-  const result = new Array(numberOfElements)
-  let length = array.length
-  const usedElements = new Array(length)
-  if (numberOfElements > length) {
-    throw new RangeError(`More elements requested than available (requested ${numberOfElements} from array of length ${array.length}; array contents: ${array.join()})`)
+exports.getRandomElementsFromArray = (source, requestedNumberOfElements) => {
+  internals.checkArray(source)
+  if (requestedNumberOfElements > source.length) {
+    throw new RangeError(`More elements requested than available (requested ${requestedNumberOfElements} from array of length ${source.length}; array contents: ${source.join()})`)
   }
-  while (numberOfElements--) {
-    const index = internals.csprng(0, length)
-    result[numberOfElements] = array[index in usedElements ? usedElements[index] : index]
-    usedElements[index] = --length in usedElements ? usedElements[length] : length
+  const mutableSourceCopy = [...source]
+  const result = []
+  while (result.length < requestedNumberOfElements) {
+    if (mutableSourceCopy.length === 0) {
+      throw new Error('Cannot select items from empty array')
+    }
+    const index = internals.csprng(0, mutableSourceCopy.length - 1)
+    const [item] = mutableSourceCopy.splice(index, 1)
+    result.push(item)
   }
   return result
 }
