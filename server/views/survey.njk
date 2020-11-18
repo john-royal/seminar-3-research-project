@@ -1,0 +1,55 @@
+{% set page_title = "Survey" %}
+{% extends "_layout.njk" %}
+
+{% macro option(name, label, value) %}
+    <div class="flex items-center py-1">
+        <input id="{{ value }}" name="{{ name }}" type="radio" class="form-radio h-4 w-4 text-blue-600 transition duration-150 ease-in-out">
+        <label for="{{ value }}" class="ml-3">
+            <span class="block text-sm leading-5 font-regular text-gray-700">{{ label }}</span>
+        </label>
+    </div>
+{% endmacro %}
+
+{% macro radio(name, label, options) %}
+    <fieldset class="mt-6">
+        <legend class="block text-base font-medium leading-5 text-gray-700">{{ label }}</legend>
+        <div class="mt-2">
+            {% for value, label in options %}
+                {{ option(name=name, label=label, value=value) }}
+            {% endfor %}
+        </div>
+    </fieldset>
+{% endmacro %}
+
+{% block main %}
+    {% call card(title = "Survey Questions", subtitle = "Please choose the answer that best represents you.") %}
+    {{ radio(name="Age", label="How old are you?", options={
+        "under-18": "Under 18",
+        "18-24": "Between 18 and 24",
+        "25-34": "Between 25 and 34",
+        "35-44": "Between 35 and 44",
+        "45-54": "Between 45 and 54",
+        "55-64": "Between 55 and 64",
+        "65-or-older": "65 or older"
+    }) }}
+    {{ radio(name="preferred-genre", label="What is your favorite music genre?", options={
+        "classical": "Classical",
+        "jazz": "Jazz",
+        "pop": "Pop",
+        "hip-hop": "Hip-Hop/Rap",
+        "rb": "R&B/Soul",
+        "country": "Country",
+        "rock": "Rock"
+    }) }}
+    {{ radio(name="prefers-music-while-studying", label="Do you listen to music while studying?", options={
+        "true": "Yes",
+        "false": "No"
+    }) }}
+    {% endcall %}
+    <script>
+        document.getElementById('form').onsubmit = e => {
+            e.preventDefault()
+            Turbolinks.visit('/steps/1')
+        }
+    </script>
+{% endblock main %}

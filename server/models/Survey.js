@@ -10,8 +10,8 @@ class Survey {
    */
   constructor (input) {
     this.approximateAge = input.approximateAge
-    this.prefersMusicWhileStudying = input.prefersMusicWhileStudying
     this.preferredGenre = input.preferredGenre
+    this.prefersMusicWhileStudying = input.prefersMusicWhileStudying
   }
 }
 

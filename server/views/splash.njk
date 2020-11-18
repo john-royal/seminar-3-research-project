@@ -1,19 +1,19 @@
-{% set page_title = "Home" %}
+{% set page_title = heading %}
 {% extends "_layout.njk" %}
 
 {% block main %}
     <div></div>
-    <main class="mx-auto max-w-md text-center">
+    <main class="mx-auto max-w-md my-10 sm:my-auto text-center">
         {% if caption %}
             <p class="text-md font-semibold tracking-wider leading-tight uppercase text-gray-400">
                 {{ caption }}
             </p>
         {% endif %}
-        <h1 class="text-4xl mt-1 mb-5 font-semibold leading-tight text-gray-900">
+        <h1 class="text-2xl sm:text-4xl mt-1 mb-5 font-semibold leading-tight text-gray-900">
             {{ heading }}
         </h1>
         {% for line in subheading %}
-            <p class="text-2xl font-regular text-gray-500 {{ '' if loop.last else 'mb-3' }}">{{ line }}</p>
+            <p class="text-lg sm:text-2xl font-regular text-gray-500 {{ '' if loop.last else 'mb-3' }}">{{ line }}</p>
         {% endfor %}
     </main>
     {% if button %}

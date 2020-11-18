@@ -17,4 +17,12 @@ module.exports = async function (fastify, options) {
       }
     })
   })
+
+  fastify.get('/register', async function (request, reply) {
+    return reply.view('register')
+  })
+
+  fastify.get('/survey', async function (request, reply) {
+    return reply.view('survey')
+  })
 }

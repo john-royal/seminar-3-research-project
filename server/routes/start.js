@@ -10,7 +10,7 @@ module.exports = async function (fastify, options) {
       ],
       button: {
         label: 'Start',
-        destination: '/steps/1'
+        destination: '/register'
       }
     })
   })
