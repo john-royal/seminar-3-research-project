@@ -11,7 +11,7 @@ module.exports = async function (fastify, opts) {
   // This loads all plugins defined in routes
   // define your routes in one of these
   fastify.register(AutoLoad, {
-    dir: path.join(__dirname, 'server/routes'),
+    dir: path.join(__dirname, 'server/controllers'),
     options: Object.assign({}, opts)
   })
 }
