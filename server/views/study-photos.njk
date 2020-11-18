@@ -13,7 +13,7 @@
                 <p class="text-xl font-regular leading-tight text-gray-500">Try to memorize what you see.</p>
             </div>
             <div class="col-span-1 flex flex-col justify-center text-right">
-                {{ components.timer(label=timer.label, minutes=timer.length, redirect_to=timer.destination) }}
+                {{ components.timer(label="Photos will be hidden in", minutes=timer.length, redirect_to=timer.redirect) }}
             </div>
         </div>
     </header>
