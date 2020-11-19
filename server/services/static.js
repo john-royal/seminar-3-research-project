@@ -7,6 +7,11 @@ const FastifyStatic = require('fastify-static')
 module.exports = fp(async function (fastify, opts) {
   // Serve built assets
   fastify.register(FastifyStatic, {
+    root: path.join(__dirname, '../../dist/css'),
+    prefix: '/static/css',
+    decorateReply: false
+  })
+  fastify.register(FastifyStatic, {
     root: path.join(__dirname, '../../dist/js'),
     prefix: '/static/js',
     decorateReply: false
