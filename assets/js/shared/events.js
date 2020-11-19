@@ -41,11 +41,14 @@ exports.once = (elements, event, action) => {
  * @param {function} action
  */
 exports.ready = action => {
+  if (window.contentDidRender) {
+    return action()
+  }
   const callback = () => {
+    document.removeEventListener('turbolinks:render', callback)
     document.removeEventListener('DOMContentLoaded', callback)
-    document.removeEventListener('turbolinks:visit', callback)
     action()
   }
+  document.addEventListener('turbolinks:render', callback)
   document.addEventListener('DOMContentLoaded', callback)
-  document.addEventListener('turbolinks:visit', callback)
 }

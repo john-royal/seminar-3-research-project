@@ -1,31 +1,14 @@
 'use strict'
 
-console.log('[S3RP] Form script loaded')
-
 const ky = require('ky/umd')
 const events = require('./events')
 const setModal = require('./modal')
 
-class Form {
-  /**
-   *
-   * @param {HTMLFormElement} form
-   * @param {string} action
-   * @param {string} callback
-   */
-  constructor (form, action, callback) {
-    this.form = form
-    this.action = action
-    this.callback = callback
+function initializeForm (form, action, callback) {
+  const submit = async () => {
+    console.log(`[S3RP][Form:${action}] Submitting`)
 
-    events.lifetime(this.form, 'submit', e => {
-      e.preventDefault()
-      this.submit()
-    })
-  }
-
-  async submit () {
-    const elements = this.form.elements
+    const elements = form.elements
     const formData = {}
     for (const element of elements) {
       if (element.name && element.value) {
@@ -33,12 +16,14 @@ class Form {
       }
     }
     try {
-      const response = await ky.post(this.action, {
+      await ky.post(action, {
         json: formData,
         retry: { limit: 3 }
       })
-      this.callback()
+      callback()
+      console.log(`[S3RP][Form: ${action}] Done`)
     } catch (error) {
+      console.log(`[S3RP][Form: ${action}] Error`)
       console.error(error)
       setModal({
         title: 'Something went wrong',
@@ -46,6 +31,21 @@ class Form {
       })
     }
   }
+  events.lifetime(form, 'submit', e => {
+    e.preventDefault()
+    submit()
+  })
 }
 
-module.exports = Form
+/**
+ *
+ * @param {string} action
+ * @param {function} callback
+ */
+module.exports = (action, callback) => {
+  events.ready(() => {
+    const form = document.forms[0]
+    initializeForm(form, action, callback)
+    console.log(`[S3RP][Form: ${action}] Initialized`)
+  })
+}

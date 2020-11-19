@@ -5,11 +5,12 @@ const CSS_OUTPUT_DIRECTORY = './dist/css/'
 const JS_INPUT_DIRECTORY = './assets/js/'
 const JS_OUTPUT_DIRECTORY = './dist/js/'
 const JS_SCRIPTS = [
-  'study-photos',
-  'memory-test',
   'global',
-  'form',
-  'break'
+  'register/profile',
+  'register/survey',
+  'study-photos',
+  'break',
+  'memory-test'
 ]
 
 const gulp = require('gulp')
