@@ -7,6 +7,7 @@ const timeout = ms => new Promise(resolve => setTimeout(resolve, ms))
  * @param {Object} content
  * @param {string} content.title
  * @param {string} content.message
+ * @param {function?} content.onDismiss
  */
 module.exports = content => {
   const modal = document.querySelector('.modal')
@@ -27,6 +28,9 @@ module.exports = content => {
     })
 
   const dismiss = () => {
+    if (content.onDismiss) {
+      content.onDismiss()
+    }
     modal.classList.add('modal--will-leave')
     timeout(10)
       .then(() => {

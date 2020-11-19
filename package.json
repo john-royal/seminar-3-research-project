@@ -10,7 +10,7 @@
     "pretest": "standard assets/**/*.js server/**/*.js test/**/*.js --no-ignore",
     "test": "tap test/**/*.test.js",
     "start": "fastify start -l info app.js",
-    "dev": "gulp watch & fastify start -w -l info -P app.js",
+    "dev": "gulp && gulp watch & fastify start -w -l info -P app.js",
     "lint": "standard --fix assets/**/*.js server/**/*.js test/**/*.js --no-ignore",
     "build": "gulp"
   },

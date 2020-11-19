@@ -18,7 +18,7 @@ Routes.getStudyPhotos = {
     return reply.view('study-photos', {
       trial: `Trial ${trial.number} of ${request.participant.trials.length}`,
       images: trial.photosDisplayed,
-      song: trial.song,
+      jsonTrialDescription: JSON.stringify(trial),
       timer: {
         length: MINUTES_IN_STEP_1,
         redirect: Routes.getBreak.url.replace(':trial', trial.number)

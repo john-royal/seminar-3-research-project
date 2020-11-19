@@ -86,4 +86,4 @@ const Watch = {
 exports.default = gulp.parallel(CleanAndBuild.css, CleanAndBuild.js)
 exports.css = CleanAndBuild.css
 exports.js = CleanAndBuild.js
-exports.watch = gulp.series(exports.default, gulp.parallel(Watch.css, Watch.js))
+exports.watch = gulp.parallel(Watch.css, Watch.js)

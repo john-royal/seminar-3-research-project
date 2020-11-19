@@ -105,3 +105,57 @@
 .modal__button {
     @apply w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm;
 }
+
+.photo {
+    height: 100px;
+    @apply bg-gray-300 bg-cover bg-center;
+}
+.photo-grid {
+    width: calc(400px + 3rem);
+    @apply mx-auto my-6 grid grid-rows-4 grid-cols-4 grid-flow-row gap-3;
+}
+
+@media only screen and (min-height: calc(500px + 16rem)) and (min-width: calc(500px + 3rem)) {
+    .photo {
+        height: 125px;
+    }
+    .photo-grid {
+        width: calc(500px + 3rem);
+    }
+}
+@media only screen and (min-height: calc(600px + 16rem)) and (min-width: calc(600px + 3rem)) {
+    .photo {
+        height: 150px;
+    }
+    .photo-grid {
+        width: calc(600px + 3rem);
+    }
+}
+
+.study-header {
+    @apply bg-white shadow;
+}
+
+.study-header__content {
+    @apply grid max-w-7xl grid-cols-3 gap-4 mx-auto py-6 px-4 sm:px-6 lg:px-8;
+}
+
+.study-header__content-left {
+    @apply col-span-2;
+}
+
+.study-header__content-right {
+    @apply col-span-1 flex flex-col justify-center text-right;
+}
+
+.button-wrapper {
+    @apply my-8 h-12 mx-auto text-center;
+}
+
+.button {
+    @apply mx-auto rounded-md shadow px-8 py-3 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition duration-150 ease-in-out sm:py-4 md:text-lg md:px-10;
+}
+
+.splash {
+    @apply mx-auto max-w-md my-10 sm:my-auto text-center;
+}

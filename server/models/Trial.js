@@ -10,7 +10,7 @@ class Trial {
    * @param {number} input.number
    * @param {Trial.Type} input.type
    * @param {Song?} input.song
-   * @param {number[]} input.photosDisplayed
+   * @param {Photo[]} input.photosDisplayed
    * @param {number[]} input.photosRecalled
    */
   constructor (input) {
@@ -20,7 +20,7 @@ class Trial {
     this.type = input.type
     /** @type {Song?} */
     this.song = input.song || null
-    /** @type {number[]}  */
+    /** @type {Photo[]}  */
     this.photosDisplayed = input.photosDisplayed
     /** @type {number[]}  */
     this.photosRecalled = input.photosRecalled
