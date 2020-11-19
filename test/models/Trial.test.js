@@ -27,9 +27,9 @@ t.test('assigns 16 unique photos to each trial', t => {
   const photos = []
 
   for (const trial of trials) {
-    t.equal(trial.photosDisplayed.length, 16)
+    t.equal(trial.photos.length, 16)
 
-    for (const photo of trial.photosDisplayed) {
+    for (const photo of trial.photos) {
       t.notOk(photos.includes(photo.number), `Photo must only be used once; photo ${photo.number} found more than once`)
       photos.push(photo.number)
     }
