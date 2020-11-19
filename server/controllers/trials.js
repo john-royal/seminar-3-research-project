@@ -17,7 +17,7 @@ Routes.getStudyPhotos = {
     const trial = request.trial
     return reply.view('study-photos', {
       trial: `Trial ${trial.number} of ${request.participant.trials.length}`,
-      images: trial.photosDisplayed,
+      photos: trial.photos,
       jsonTrialDescription: JSON.stringify(trial),
       timer: {
         length: MINUTES_IN_STEP_1,
@@ -67,7 +67,7 @@ Routes.getMemoryTest = {
     const trial = request.trial
     return reply.view('memory-test/memory-test', {
       trial: `Trial ${trial.number} of ${request.participant.trials.length}`,
-      images: util.shuffleArray(trial.photosDisplayed)
+      images: util.shuffleArray(trial.photos)
     })
   }
 }

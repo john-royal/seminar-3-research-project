@@ -52,3 +52,15 @@ exports.ready = action => {
   document.addEventListener('turbolinks:render', callback)
   document.addEventListener('DOMContentLoaded', callback)
 }
+
+/**
+ * Run the given callback function when the page is unloaded.
+ * @param {function} action
+ */
+exports.unload = action => {
+  const callback = () => {
+    document.removeEventListener('turbolinks:before-visit', callback)
+    action()
+  }
+  document.addEventListener('turbolinks:before-visit', callback)
+}

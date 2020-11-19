@@ -20,7 +20,7 @@ internals.formatTime = seconds => {
 
 class Timer {
   /** @param {HTMLElement} element */
-  constructor (element) {
+  constructor (element = document.querySelector('[data-timer-length]')) {
     this.element = element
     this.length = Number(element.dataset.timerLength)
     this.isCancelled = false

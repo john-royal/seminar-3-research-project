@@ -4,6 +4,7 @@
  * Load the given audio resource and resolve when the audio is ready.
  * @param {string} url
  * @param {'canplay'|'canplaythrough'} event
+ * @returns {Promise<Audio>}
  */
 module.exports = (url, event = 'canplay') => {
   return new Promise((resolve, reject) => {

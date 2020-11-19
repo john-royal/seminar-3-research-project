@@ -9,14 +9,7 @@
 {% endblock scripts %}
 
 {% block subheader %}
-    <style>
-        .collapsed {
-            height: 0;
-            opacity: 0;
-            position: absolute;
-        }
-    </style>
-    <header class="study-header hidden collapsed">
+    <header class="study-header study-header--hidden">
         <div class="study-header__content">
             <div class="study-header__content-left">
                 <p class="text-xs sm:text-sm font-semibold tracking-wider leading-tight uppercase text-gray-400">Step 1 of 3
@@ -34,10 +27,10 @@
 {% endblock subheader %}
 
 {% block main %}
-    <main class="collapsed">
-        <div class="photo-grid">
-            {% for image in images %}
-                <div class="photo" style="background-image: url({{ image.path }});"></div>
+    <main class="study-content study-content--hidden">
+        <div class="photo-grid photo-grid--4-by-4">
+            {% for photo in photos %}
+                <div class="photo" style="background-image: url({{ photo.path }});"></div>
             {% endfor %}
         </div>
     </main>
