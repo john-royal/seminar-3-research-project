@@ -15,7 +15,11 @@
 }
 
 .navbar {
-    @apply bg-gray-800 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16;
+    @apply bg-gray-800;
+}
+
+.navbar__items {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16
 }
 
 .navbar__item {

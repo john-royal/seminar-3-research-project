@@ -18,21 +18,23 @@
     <body class="body">
         {% block scripts %}{% endblock scripts %}
         <div class="content {{ content_class }}">
-            <header>
+            <div>
                 <nav class="navbar">
-                    <div class="navbar__item">
-                        <a href="/" class="navbar__text navbar__text--prominent">Seminar 3 Research Project</a>
-                    </div>
-                    {% if trial %}
+                    <div class="navbar__items">
                         <div class="navbar__item">
-                            <p class="navbar__text">{{ trial }}</p>
+                            <a href="/" class="navbar__text navbar__text--prominent">Seminar 3 Research Project</a>
                         </div>
-                    {% endif %}
+                        {% if trial %}
+                            <div class="navbar__item">
+                                <p class="navbar__text">{{ trial }}</p>
+                            </div>
+                        {% endif %}
+                    </div>
                 </nav>
                 <!-- Begin Subheader -->
                 {% block subheader %}{% endblock %}
                 <!-- End Subheader -->
-            </header>
+            </div>
             <!-- Begin Main -->
             {% block main %}{% endblock %}
             <!-- End Main -->
