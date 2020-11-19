@@ -1,47 +1,67 @@
-/* global fetch, Turbolinks */
 'use strict'
 
 console.log('[S3RP] Form script loaded')
 
-const form = document.getElementById('form')
+const ky = require('ky/umd')
+const setModal = require('./shared/modal')
 
-form.onsubmit = async e => {
-  e.preventDefault()
-  const content = {}
-  for (const element of form.elements) {
-    if (element.name && element.value) {
-      content[element.name] = element.value
+class Form {
+  /**
+   *
+   * @param {HTMLFormElement} form
+   * @param {string} action
+   * @param {string} callback
+   */
+  constructor (form, action, callback) {
+    this.form = form
+    this.action = action
+    this.callback = callback
+
+    this.form.onsubmit = e => {
+      e.preventDefault()
+      this.submit()
     }
-    element.disabled = true
   }
-  // TODO: Sometimes this fails with "TypeError: Could not connect to the server."
-  //       Fix this issue by making it retry automatically.
-  fetch(window.location.pathname, {
-    method: 'POST',
-    mode: 'cors',
-    cache: 'no-cache',
-    credentials: 'same-origin',
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(content)
-  })
-    .then(response => {
-      if (response.ok) {
-        Turbolinks.visit(window.NEXT_SCREEN)
-      } else {
-        console.warn('Response not ok')
-        console.warn(response)
+
+  async submit () {
+    const elements = this.form.elements
+    const formData = {}
+    for (const element of elements) {
+      if (element.name && element.value) {
+        formData[element.name] = element.value
       }
-    })
-    .catch(error => {
+    }
+    try {
+      const response = await ky.post(this.action, {
+        json: formData,
+        retry: { limit: 3 }
+      })
+      this.callback()
+    } catch (error) {
       console.error(error)
-    })
-    .finally(() => {
-      for (const element of form.elements) {
-        element.disabled = false
+      setModal({
+        title: 'Something went wrong',
+        message: 'We ran into a problem while submitting your information. Please try again.'
+      })
+    }
+  }
+
+  static configure (action, callback) {
+    let didInit = false
+    const init = () => {
+      didInit = true
+      const form = document.forms[0]
+      if (!form) { return }
+      return new Form(document.forms[0], action, callback)
+    }
+    document.addEventListener('turbolinks:load', init)
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!didInit) {
+        console.warn('Unable to initialize form via Turbolinks; doing so via DOMContentLoaded instead')
+        init()
       }
     })
+  }
 }
+
+window.Form = Form

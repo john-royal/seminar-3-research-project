@@ -2,10 +2,15 @@
 {% set content_class = "content--has-card" %}
 {% extends "shared/layout.njk" %}
 
-{% block scripts %}
+{% block head_scripts %}
     <script src="/static/js/form.min.js"></script>
+{% endblock head_scripts %}
+
+{% block scripts %}
     <script>
-        window.NEXT_SCREEN = '/trials/1/study-photos'
+        Form.configure('/register/survey', () => {
+            Turbolinks.visit('/sound-check')
+        })
     </script>
 {% endblock scripts %}
 

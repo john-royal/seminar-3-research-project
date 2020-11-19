@@ -44,6 +44,7 @@
     "gulp-postcss": "^9.0.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-terser": "^2.0.0",
+    "ky": "^0.25.0",
     "postcss": "^8.1.7",
     "standard": "^16.0.2",
     "tailwindcss": "^2.0.1",
