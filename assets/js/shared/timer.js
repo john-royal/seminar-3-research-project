@@ -1,5 +1,7 @@
 'use strict'
 
+const events = require('./events')
+
 const internals = {}
 
 /** @param {number} ms */
@@ -54,11 +56,10 @@ class Timer {
   }
 
   static createWithDefaults () {
-    const onLoad = () => {
+    events.ready(() => {
       const element = document.querySelector('[data-timer-length]')
       const redirect = element.dataset.timerRedirect
       const timer = new Timer(element)
-      window.timer = timer
       if (timer) {
         timer.run()
           .then(() => {
@@ -68,10 +69,7 @@ class Timer {
             console.error(error)
           })
       }
-      document.removeEventListener('turbolinks:load', onLoad)
-    }
-
-    document.addEventListener('turbolinks:load', onLoad)
+    })
   }
 }
 

@@ -7,11 +7,7 @@
 {% endblock head_scripts %}
 
 {% block scripts %}
-    <script>
-        Form.configure('/register/survey', () => {
-            Turbolinks.visit('/trials/1/study-photos')
-        })
-    </script>
+    <script src="/static/js/register.min.js"></script>
 {% endblock scripts %}
 
 {% block main %}

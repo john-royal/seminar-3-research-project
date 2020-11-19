@@ -1,5 +1,7 @@
 'use strict'
 
+const events = require('./events')
+
 const timeout = ms => new Promise(resolve => setTimeout(resolve, ms))
 
 /**
@@ -43,6 +45,12 @@ module.exports = content => {
         modal.classList.remove('modal--will-leave')
       })
   }
-  document.querySelector('.modal__background-wrapper').onclick = dismiss
-  document.querySelector('.modal__button').onclick = dismiss
+  events.once(
+    [
+      document.querySelector('.modal__background-wrapper'),
+      document.querySelector('.modal__button')
+    ],
+    'click',
+    dismiss
+  )
 }

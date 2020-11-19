@@ -3,7 +3,8 @@
 console.log('[S3RP] Form script loaded')
 
 const ky = require('ky/umd')
-const setModal = require('./shared/modal')
+const events = require('./events')
+const setModal = require('./modal')
 
 class Form {
   /**
@@ -17,10 +18,10 @@ class Form {
     this.action = action
     this.callback = callback
 
-    this.form.onsubmit = e => {
+    events.lifetime(this.form, 'submit', e => {
       e.preventDefault()
       this.submit()
-    }
+    })
   }
 
   async submit () {
@@ -45,23 +46,6 @@ class Form {
       })
     }
   }
-
-  static configure (action, callback) {
-    let didInit = false
-    const init = () => {
-      didInit = true
-      const form = document.forms[0]
-      if (!form) { return }
-      return new Form(document.forms[0], action, callback)
-    }
-    document.addEventListener('turbolinks:load', init)
-    document.addEventListener('DOMContentLoaded', () => {
-      if (!didInit) {
-        console.warn('Unable to initialize form via Turbolinks; doing so via DOMContentLoaded instead')
-        init()
-      }
-    })
-  }
 }
 
-window.Form = Form
+module.exports = Form
