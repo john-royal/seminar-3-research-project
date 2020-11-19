@@ -14,83 +14,48 @@
         <script src="/static/js/global.min.js"></script>
     </head>
 
-    <body class="bg-white sm:h-screen has-card">
+    <body class="body">
         {% block scripts %}{% endblock scripts %}
-        <div class="flex flex-col justify-between h-full">
-            <div>
-                <nav class="bg-gray-800">
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                        <div class="flex items-center justify-between h-16">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0">
-                                    <a href="/" class="text-white font-semibold">Seminar 3 Research Project</a>
-                                </div>
-                            </div>
-                            {% if trial %}
-                                <div class="flex-shrink-0">
-                                    <p class="text-white font-regular">{{ trial }}</p>
-                                </div>
-                            {% endif %}
-                        </div>
+        <div class="content {{ content_class }}">
+            <header>
+                <nav class="navbar">
+                    <div class="navbar__item">
+                        <a href="/" class="navbar__text navbar__text--prominent">Seminar 3 Research Project</a>
                     </div>
+                    {% if trial %}
+                        <div class="navbar__item">
+                            <p class="navbar__text">{{ trial }}</p>
+                        </div>
+                    {% endif %}
                 </nav>
                 <!-- Begin Subheader -->
                 {% block subheader %}{% endblock %}
                 <!-- End Subheader -->
-            </div>
+            </header>
             <!-- Begin Main -->
             {% block main %}{% endblock %}
             <!-- End Main -->
             <footer></footer>
         </div>
         <!-- Modal -->
-        <div class="fixed z-10 inset-0 overflow-y-auto hidden">
-            <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <!--
-                Background overlay, show/hide based on modal state.
-
-                Entering: "ease-out duration-300"
-                    From: "opacity-0"
-                    To: "opacity-100"
-                Leaving: "ease-in duration-200"
-                    From: "opacity-100"
-                    To: "opacity-0"
-                -->
-                <div class="fixed inset-0 transition-opacity opacity-0" aria-hidden="true">
-                    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+        <div class="modal">
+            <div class="modal__container">
+                <div class="modal__background-wrapper" aria-hidden="true">
+                    <div class="modal__background"></div>
                 </div>
 
                 <!-- This element is to trick the browser into centering the modal contents. -->
-                <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">​</span> 
-                <!--
-                Modal panel, show/hide based on modal state.
-
-                Entering: "ease-out duration-300"
-                    From: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    To: "opacity-100 translate-y-0 sm:scale-100"
-                Leaving: "ease-in duration-200"
-                    From: "opacity-100 translate-y-0 sm:scale-100"
-                    To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                -->
-                <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
-                    <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                        <div class="sm:flex sm:items-start">
-
-                            <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-headline">
-                                    Deactivate account
-                                </h3>
-                                <div class="mt-2">
-                                    <p class="text-sm text-gray-500">
-                                        Are you sure you want to deactivate your account? All of your data will be permanently removed. This action cannot be undone.
-                                    </p>
-                                </div>
-                            </div>
+                <span class="modal__spacer" aria-hidden="true">​</span>
+                <div class="modal__window" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+                    <div class="modal__content-wrapper">
+                        <div class="modal__content">
+                            <h3 class="modal__title"></h3>
+                            <p class="modal__message"></p>
                         </div>
                     </div>
-                    <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                        <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
-                            Deactivate
+                    <div class="modal__footer">
+                        <button class="modal__button">
+                            Close
                         </button>
 
                     </div>
