@@ -245,3 +245,15 @@
 .unselectable {
     user-select: none;
 }
+
+.button__loading-spinner {
+    @apply animate-spin -ml-1 mr-3 h-5 w-5 text-white;
+}
+
+.button__loading-text, .button__loading-spinner, .button--loading .button__text {
+    @apply hidden;
+}
+
+.button--loading .button__loading-text, .button--loading .button__loading-spinner {
+    @apply block;
+}

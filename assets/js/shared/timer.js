@@ -36,6 +36,8 @@ class Timer {
 
   async run () {
     console.log(`[Timer] Starting ${this.length} minute timer`)
+    const startTime = Date.now()
+    const finishTime = startTime + (this.length * 60 * 1000)
 
     // Cancel automatically if page is closed
     const cancel = () => {
@@ -44,14 +46,12 @@ class Timer {
     }
     document.addEventListener('turbolinks:before-visit', cancel)
 
-    for (let seconds = this.length * 60; seconds >= 0; seconds--) {
+    while (finishTime > Date.now()) {
+      const seconds = Math.round((finishTime - Date.now()) / 1000)
       this.element.textContent = internals.formatTime(seconds)
       await internals.timeout(1000)
-
-      if (this.isCancelled) {
-        throw new Error('Timer cancelled')
-      }
     }
+
     console.log(`[Timer] Completed ${this.length} minute timer`)
   }
 

@@ -7,6 +7,8 @@ const setModal = require('./modal')
 function initializeForm (form, action, callback) {
   const submit = async () => {
     console.log(`[S3RP][Form:${action}] Submitting`)
+    const button = document.getElementById('form-submit')
+    button.classList.add('button--loading')
 
     const elements = form.elements
     const formData = {}
@@ -14,6 +16,7 @@ function initializeForm (form, action, callback) {
       if (element.name && element.value) {
         formData[element.name] = element.value
       }
+      element.disabled = true
     }
     try {
       await ky.post(action, {
@@ -21,8 +24,13 @@ function initializeForm (form, action, callback) {
         retry: { limit: 3 }
       })
       callback()
+      button.classList.remove('button--loading')
       console.log(`[S3RP][Form: ${action}] Done`)
     } catch (error) {
+      button.classList.remove('button--loading')
+      for (const element of elements) {
+        element.disabled = false
+      }
       console.log(`[S3RP][Form: ${action}] Error`)
       console.error(error)
       setModal({

@@ -202,13 +202,16 @@ internals.init = async () => {
     return
   }
 
+  const button = document.getElementById('start-button')
+
   console.log('[S3RP][Memory Test] Preparing')
   const trialReadyPromise = internals.prepare(window.TRIAL_DESCRIPTION)
   await study.startButtonPressed()
-
+  button.classList.add('button--loading')
   console.log('[S3RP][Memory Test] Button pressed')
   try {
     await trialReadyPromise
+    button.classList.remove('button--loading')
     console.log('[S3RP][Memory Test] Running')
     study.dismissSplashScreen()
   } catch (error) {

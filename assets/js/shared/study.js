@@ -38,9 +38,8 @@ exports.preparePhotos = urls => {
 /**
  * Return a promise that resolves when the start button is pressed
  */
-exports.startButtonPressed = () => {
+exports.startButtonPressed = button => {
   return new Promise(resolve => {
-    const button = document.getElementById('start-button')
     events.once(button, 'click', resolve)
   })
 }

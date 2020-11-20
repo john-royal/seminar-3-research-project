@@ -89,12 +89,16 @@ internals.init = async () => {
     return
   }
   console.log('[S3RP][Study Photos] Running')
+  const button = document.getElementById('start-button')
   const trialReadyPromise = internals.prepare(window.TRIAL_DESCRIPTION)
-  await study.startButtonPressed()
+  await study.startButtonPressed(button)
+  button.classList.add('button--loading')
   try {
     const { song } = await trialReadyPromise
+    button.classList.remove('button--loading')
     await internals.runTrial(song)
   } catch (error) {
+    button.classList.remove('button--loading')
     console.log('[S3RP][Study Photos] Error')
     console.error(error)
     setModal({
