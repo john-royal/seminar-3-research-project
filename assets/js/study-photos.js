@@ -94,7 +94,10 @@ internals.init = async () => {
   await study.startButtonPressed(button)
   button.classList.add('button--loading')
   try {
-    const { song } = await trialReadyPromise
+    const { song } = await Promise.race([
+      trialReadyPromise,
+      study.timeout(10000)
+    ])
     button.classList.remove('button--loading')
     await internals.runTrial(song)
   } catch (error) {
@@ -103,7 +106,7 @@ internals.init = async () => {
     console.error(error)
     setModal({
       title: 'Something went wrong',
-      message: 'We ran into a problem while preparing this trial. Please try again.',
+      message: 'We ran into a problem while preparing your test. Please try again, or if this keeps happening, try refreshing the page.',
       onDismiss: internals.init
     })
   }

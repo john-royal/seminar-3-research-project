@@ -210,7 +210,10 @@ internals.init = async () => {
   button.classList.add('button--loading')
   console.log('[S3RP][Memory Test] Button pressed')
   try {
-    await trialReadyPromise
+    await Promise.race([
+      trialReadyPromise,
+      study.timeout(10000)
+    ])
     button.classList.remove('button--loading')
     console.log('[S3RP][Memory Test] Running')
     study.dismissSplashScreen()
@@ -219,7 +222,7 @@ internals.init = async () => {
     console.error(error)
     setModal({
       title: 'Something went wrong',
-      message: 'We ran into a problem while preparing your test. Please try again.',
+      message: 'We ran into a problem while preparing your test. Please try again, or if this keeps happening, try refreshing the page.',
       onDismiss: internals.init
     })
   }

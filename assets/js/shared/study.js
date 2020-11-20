@@ -7,6 +7,16 @@ const internals = {}
 
 internals.wait = ms => new Promise(resolve => setTimeout(resolve, ms))
 
+class TimeoutExceededError extends Error {}
+exports.TimeoutExceededError = TimeoutExceededError
+exports.timeout = ms => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(new TimeoutExceededError())
+    }, ms)
+  })
+}
+
 /**
  * Prepare photos for trial
  * @param {string} url
