@@ -95,12 +95,13 @@ Routes.getEndOfTrialSplash = {
     const i = participant.trials.findIndex(trial => trial.number === trialNumber)
     const result = participant.trials[i].testResult
     const nextTrial = trialNumber === request.participant.trials.length ? null : trialNumber + 1
+    const singularOrPlural = (number, singular, plural) => number === 1 ? `1 ${singular}` : `${number} ${plural}`
     const context = {
       trial: `Trial ${trialNumber} of ${request.participant.trials.length}`,
-      caption: nextTrial ? `${request.participant.trials.length - trialNumber} Trials Remaining` : null,
-      heading: `Finished Trial ${trialNumber}`,
+      caption: nextTrial ? `${singularOrPlural(request.participant.trials.length - trialNumber, 'Trial', 'Trials')} Remaining` : 'You\'re Done',
+      heading: `Finished Trial ${trialNumber} of ${request.participant.trials.length}`,
       subheading: [
-        `You missed ${result.missed} photos and got ${result.correct} photos correct.`,
+        `You missed ${singularOrPlural(result.missed, 'photo', 'photos')} and got ${singularOrPlural(result.correct, 'photo', 'photos')} correct.`,
         nextTrial ? 'When you\'re ready, click Next to begin the next trial.' : 'Thank you for participating in our study.'
       ],
       nextTrialUrl: nextTrial ? `/trials/${nextTrial}/study-photos` : null
