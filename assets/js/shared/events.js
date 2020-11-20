@@ -3,14 +3,21 @@
 /**
  * Attach an event listener that lasts the lifetime of the page.
  * This will be removed when the page is unloaded.
- * @param {HTMLElement} element
+ * @param {HTMLElement[]} elements
  * @param {string} event
  * @param {function} action
  */
-exports.lifetime = (element, event, action) => {
-  element.addEventListener(event, action)
+exports.lifetime = (elements, event, action) => {
+  if (!Array.isArray(elements)) {
+    elements = [elements]
+  }
+  for (const element of elements) {
+    element.addEventListener(event, action)
+  }
   exports.once(document, 'turbolinks:before-visit', () => {
-    element.removeEventListener(event, action)
+    for (const element of elements) {
+      element.removeEventListener(event, action)
+    }
   })
 }
 

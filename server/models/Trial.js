@@ -26,7 +26,7 @@ class Trial {
     this.photos = input.photos
     this.test = input.test || {
       /** @type {number[]}  */
-      recalled: new Array(input.photos.length),
+      recalled: new Array(input.photos.length).fill(null),
       /** @type {number[]}  */
       leftover: []
     }

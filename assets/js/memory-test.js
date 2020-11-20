@@ -1,109 +1,219 @@
 'use strict'
 
-console.log('[S3RP] Step 3 (memory test) script loaded')
+const ky = require('ky/umd')
+const events = require('./shared/events')
+const setModal = require('./shared/modal')
+const study = require('./shared/study')
 
-const images = Array.from(document.querySelectorAll('.image'))
-const draggable = document.getElementById('draggable-image')
+const internals = {}
 
-let overlap = null
-let last = null
+internals.href = null
+internals.photoFollowingCursor = null
+internals.photoMoveCandidate = null
+internals.photoSlots = []
 
-function findOverlap (top, left) {
-  return images.find(image => {
-    const rect1 = image.getBoundingClientRect()
-    let rect2 = { top, left }
-    if (!(top && left)) {
-      rect2 = draggable.getBoundingClientRect()
-    }
+internals.updatePhotoFollowingCursor = event => {
+  internals.photoFollowingCursor.style.left = `${event.pageX}px`
+  internals.photoFollowingCursor.style.top = `${event.pageY}px`
+}
 
-    return !(
-      rect1.top > rect2.bottom ||
-      rect1.right < rect2.left ||
-      rect1.bottom < rect2.top ||
-      rect1.left > rect2.right
+internals.findPhotoMoveCandidate = (x, y) => {
+  return internals.photoSlots.find(slot => {
+    const rect = slot.getBoundingClientRect()
+    return (
+      x >= rect.left &&
+      x <= rect.right &&
+      y >= rect.top &&
+      y <= rect.bottom
     )
   })
 }
 
-function updateOverlap (force = false) {
-  if (last && Date.now() - last <= 25 && !force) {
-    return
+internals.setPhotoMoveCandidate = newPhotoMoveCandidate => {
+  if (internals.photoMoveCandidate) {
+    internals.photoMoveCandidate.classList.remove('slot--highlight')
   }
-  last = Date.now()
-  const detectedOverlap = findOverlap()
-  if (overlap !== detectedOverlap) {
-    if (overlap) {
-      overlap.classList.remove('image--is-dragging')
-    }
-    overlap = detectedOverlap
+  if (newPhotoMoveCandidate) {
+    newPhotoMoveCandidate.classList.add('slot--highlight')
   }
-  if (overlap) {
-    overlap.classList.add('image--is-dragging')
-  }
-  return overlap
+  internals.photoMoveCandidate = newPhotoMoveCandidate
 }
 
-function onDrag (event) {
-  const image = event.target
-  const id = image.id
-  const dragImageClass = window.state[id]
-  if (!dragImageClass) {
-    return
+internals.updatePhotoMoveCandidate = event => {
+  const x = event.pageX
+  const y = event.pageY
+  const foundPhotoMoveCandidate = internals.findPhotoMoveCandidate(x, y)
+  if (foundPhotoMoveCandidate) {
+    internals.setPhotoMoveCandidate(foundPhotoMoveCandidate)
+  } else if (internals.photoMoveCandidate) {
+    internals.setPhotoMoveCandidate(null)
   }
-  document.querySelector('html').classList.add('unselectable')
+}
 
-  draggable.classList.add(dragImageClass)
-  image.classList.add('image--is-dragging')
+internals.handleCursorLocationChange = event => {
+  internals.updatePhotoFollowingCursor(event)
+  internals.updatePhotoMoveCandidate(event)
+}
 
-  // centers the ball at (pageX, pageY) coordinates
-  function moveAt (pageX, pageY) {
-    const top = pageY - draggable.offsetHeight / 2
-    const left = pageX - draggable.offsetWidth / 2
-    if (draggable.style.top !== `${top}px`) {
-      draggable.style.top = `${top}px`
+internals.setPhotoFollowingCursor = photoNumber => {
+  const element = internals.photoFollowingCursor
+  const formerPhotoNumber = element.dataset.photoNumber
+  if (formerPhotoNumber) {
+    element.classList.remove(`photo-${formerPhotoNumber}`)
+  }
+  element.dataset.photoNumber = photoNumber
+  if (photoNumber) {
+    element.classList.add(`photo-${photoNumber}`)
+    if (element.classList.contains('hidden')) {
+      element.classList.remove('hidden')
     }
-    draggable.style.left = `${left}px`
-    updateOverlap()
+  } else if (!element.classList.contains('hidden')) {
+    element.classList.add('hidden')
   }
+}
 
-  // move our absolutely positioned ball under the pointer
-  moveAt(event.pageX, event.pageY)
+internals.movePhoto = (sourceSlot, targetSlot) => {
+  const movedPhotoNumber = sourceSlot.dataset.photoNumber
+  const displacedPhotoNumber = targetSlot.dataset.photoNumber
 
-  function onMouseMove (event) {
-    moveAt(event.pageX, event.pageY)
+  sourceSlot.dataset.photoNumber = displacedPhotoNumber
+  targetSlot.dataset.photoNumber = movedPhotoNumber
+
+  const movedPhotoClassName = `photo-${movedPhotoNumber}`
+  sourceSlot.classList.remove(movedPhotoClassName)
+  targetSlot.classList.add(movedPhotoClassName)
+
+  if (displacedPhotoNumber) {
+    const displacedPhotoClassName = `photo-${displacedPhotoNumber}`
+    targetSlot.classList.remove(displacedPhotoClassName)
+    sourceSlot.classList.add(displacedPhotoClassName)
+  } else {
+    sourceSlot.classList.remove('slot--has-photo')
+    targetSlot.classList.add('slot--has-photo')
   }
+}
 
-  function onMouseUp () {
-    document.removeEventListener('mousemove', onMouseMove)
-    document.removeEventListener('mouseup', onMouseUp)
-    updateOverlap(true)
-    if (overlap) {
-      const displaceImageClass = window.state[overlap.id]
-      if (displaceImageClass) {
-        overlap.classList.remove(displaceImageClass)
-        image.classList.add(displaceImageClass)
+/** @param {HTMLElement} slot */
+internals.attachEventListenerToSlot = slot => {
+  const handleMouseDown = event => {
+    const photoNumber = slot.dataset.photoNumber
+    if (!photoNumber) {
+      if (slot.classList.contains('slot--has-photo')) {
+        throw new Error(`Slot "${slot.id}" has class "slot--has-photo" even though data-photo-number is undefined`)
+      } else {
+        console.warn(`[S3RP] Slot "${slot.id}" cannot be selected because it does not have a photo number set`)
+        return
       }
-      image.classList.remove(dragImageClass)
-      overlap.classList.add(dragImageClass)
-      window.state[overlap.id] = dragImageClass
-      window.state[image.id] = displaceImageClass
-      overlap.classList.remove('image--is-dragging')
-      overlap = null
     }
-    draggable.classList.remove(dragImageClass)
-    image.classList.remove('image--is-dragging')
-    document.querySelector('html').classList.remove('unselectable')
+
+    slot.classList.add('slot--highlight')
+    document.body.classList.add('unselectable')
+
+    internals.handleCursorLocationChange(event)
+    internals.setPhotoFollowingCursor(photoNumber)
+
+    const handleMouseUp = event => {
+      slot.classList.remove('slot--highlight')
+      document.body.classList.remove('unselectable')
+
+      internals.handleCursorLocationChange(event)
+      internals.setPhotoFollowingCursor(null)
+
+      if (internals.photoMoveCandidate) {
+        internals.movePhoto(slot, internals.photoMoveCandidate)
+      }
+
+      document.removeEventListener('mousemove', internals.handleCursorLocationChange)
+      document.removeEventListener('mouseup', handleMouseUp)
+    }
+
+    document.addEventListener('mousemove', internals.handleCursorLocationChange)
+    document.addEventListener('mouseup', handleMouseUp)
+  }
+  events.lifetime(slot, 'mousedown', handleMouseDown)
+}
+
+internals.submitTestResults = async () => {
+  if (window.location.href !== internals.href) {
+    console.log(`[S3RP][Memory Test] Location changed from "${internals.href}", not attempting to submit test results`)
+    return
   }
 
-  // (2) move the ball on mousemove
-  document.addEventListener('mousemove', onMouseMove)
-  document.addEventListener('mouseup', onMouseUp)
+  const testResults = (() => {
+    const extractPhotoNumbers = elements => {
+      return Array.from(elements)
+        .map(slot => {
+          return slot.dataset.photoNumber || null
+        })
+        .map(photoNumber => {
+          return photoNumber ? Number(photoNumber) : null
+        })
+    }
 
-  image.ondragstart = function () {
-    return false
+    const recalled = extractPhotoNumbers(document.querySelectorAll('.js-target-slot'))
+    const leftover = extractPhotoNumbers(document.querySelectorAll('.js-source-slot')).filter(photoNumber => !!photoNumber)
+    return { recalled, leftover }
+  })()
+
+  try {
+    const response = await ky.post(window.location.href, {
+      json: testResults,
+      retry: { limit: 3 }
+    }).json()
+    if (response.status !== 'success') {
+      throw new Error('Unexpected response from server')
+    }
+    console.log(response)
+  } catch (error) {
+    console.log('[S3RP][Memory Test] Error submitting test results')
+    console.error(error)
+    setModal({
+      title: 'Something went wrong',
+      message: 'We ran into a problem while submitting your test results. Please try again.',
+      onDismiss: internals.submitTestResults
+    })
   }
 }
 
-images.forEach(el => {
-  el.onmousedown = onDrag
+internals.prepare = async trial => {
+  const photoUrls = trial.photos.map(photo => photo.path)
+  await study.preparePhotos(photoUrls)
+
+  internals.photoFollowingCursor = document.getElementById('photo-following-cursor')
+  internals.photoSlots = Array.from(document.querySelectorAll('.slot'))
+
+  internals.photoSlots.forEach(internals.attachEventListenerToSlot)
+
+  events.lifetime(document.getElementById('finish-button'), 'click', internals.submitTestResults)
+}
+
+internals.init = async () => {
+  if (window.location.href !== internals.href) {
+    console.log(`[S3RP][Memory Test] Location changed from "${internals.href}", not attempting to init`)
+    return
+  }
+
+  console.log('[S3RP][Memory Test] Preparing')
+  const trialReadyPromise = internals.prepare(window.TRIAL_DESCRIPTION)
+  await study.startButtonPressed()
+
+  console.log('[S3RP][Memory Test] Button pressed')
+  try {
+    await trialReadyPromise
+    console.log('[S3RP][Memory Test] Running')
+    study.dismissSplashScreen()
+  } catch (error) {
+    console.log('[S3RP][Memory Test] Error')
+    console.error(error)
+    setModal({
+      title: 'Something went wrong',
+      message: 'We ran into a problem while preparing your test. Please try again.',
+      onDismiss: internals.init
+    })
+  }
+}
+
+events.ready(() => {
+  internals.href = window.location.href
+  internals.init()
 })

@@ -38,22 +38,8 @@ Routes.getBreak = {
       trial: `Trial ${trial.number} of ${request.participant.trials.length}`,
       timer: {
         length: MINUTES_IN_STEP_2,
-        redirect: Routes.getMemoryTestSplash.url.replace(':trial', trial.number)
+        redirect: Routes.getMemoryTest.url.replace(':trial', trial.number)
       }
-    })
-  }
-}
-
-/** @type {import('fastify').RouteOptions} */
-Routes.getMemoryTestSplash = {
-  method: 'GET',
-  url: '/trials/:trial/memory-test-splash',
-  handler (request, reply) {
-    /** @type {import('../models/Trial')} */
-    const trial = request.trial
-    return reply.view('memory-test/splash', {
-      trial: `Trial ${trial.number} of ${request.participant.trials.length}`,
-      nextUrl: Routes.getMemoryTest.url.replace(':trial', trial.number)
     })
   }
 }
@@ -65,10 +51,33 @@ Routes.getMemoryTest = {
   handler (request, reply) {
     /** @type {import('../models/Trial')} */
     const trial = request.trial
-    return reply.view('memory-test/memory-test', {
+    return reply.view('memory-test', {
       trial: `Trial ${trial.number} of ${request.participant.trials.length}`,
-      images: util.shuffleArray(trial.photos)
+      photos: util.shuffleArray(trial.photos),
+      jsonTrialDescription: JSON.stringify(trial)
     })
+  }
+}
+
+/** @type {import('fastify').RouteOptions} */
+Routes.postMemoryTest = {
+  method: 'POST',
+  url: '/trials/:trial/memory-test',
+  schema: {
+    body: S.object()
+      .prop('recalled', S.array(S.number().raw({ nullable: true })).minItems(16).maxItems(16).required())
+      .prop('leftover', S.array(S.number().raw({ nullable: false })).minItems(0).maxItems(16).required())
+  },
+  async handler (request, reply) {
+    /** @type {import('../models/Participant')} */
+    const participant = request.participant
+    const i = participant.trials.findIndex(trial => trial.number === Number(request.params.trial))
+    participant.trials[i].test = {
+      recalled: request.body.recalled,
+      leftover: request.body.leftover
+    }
+    await participant.save()
+    return { status: 'success', data: {} }
   }
 }
 
@@ -85,10 +94,9 @@ module.exports = async function (fastify, options) {
     done()
   })
   for (const route of Object.values(Routes)) {
-    route.schema = {
-      params: S.object()
-        .prop('trial', S.number().required())
-    }
+    route.schema = Object.assign({}, route.schema, {
+      params: S.object().prop('trial', S.number().enum([1, 2, 3, 4]).required())
+    })
     fastify.route(route)
   }
 }

@@ -1,0 +1,64 @@
+{% set page_title = "Home" %}
+{% extends "shared/layout.njk" %}
+
+{% block scripts %}
+    <script src="/static/js/memory-test.min.js"></script>
+    <script>
+        window.TRIAL_DESCRIPTION = {{ jsonTrialDescription | safe }};
+    </script>
+    <style>
+        {% for photo in photos %}
+            .photo-{{photo.number}}{
+                background-image: url({{ photo.path }});
+            }
+             .moving-photo.photo-{{photo.number}}{
+                opacity: 1;
+                height: 100px;
+                width: 100px;
+            }
+        {% endfor %}
+    </style>
+{% endblock scripts %}
+
+{% block subheader %}
+    <header class="study-header study-header--hidden">
+        <div class="study-header__content">
+            <div class="study-header__content-left">
+                <p class="study-header__caption">Step 3 of 3
+                </p>
+                <h1 class="study-header__title">
+                    Memory Test
+                </h1>
+                <p class="study-header__subtitle">Try to re-assemble the grid from memory.</p>
+            </div>
+            <div class="study-header__content-right">
+                <div class="ml-auto">
+                    <button class="button" id="finish-button">Done</button>
+                </div>
+            </div>
+        </div>
+    </header>
+{% endblock subheader %}
+
+{% block main %}
+    <main class="study-content study-content--flex-row study-content--hidden">
+        <div class="photo-grid photo-grid--2-by-8">
+            {% for photo in photos %}
+                <div class="photo photo-{{ photo.number }} photo--small slot slot--has-photo js-source-slot" data-photo-number="{{ photo.number }}" id="source-slot-{{ loop.index0 }}"></div>
+            {% endfor %}
+        </div>
+        <div class="photo-grid photo-grid--4-by-4">
+            {% for photo in photos %}
+                <div class="photo slot js-target-slot" data-photo-slot-number="{{ loop.index0 }}" data-photo-number="" id="target-slot-{{ loop.index0 }}"></div>
+            {% endfor %}
+        </div>
+    </main>
+    <div class="photo photo--follows-cursor hidden" id="photo-following-cursor"></div>
+    {% call components.splash(heading = "Memory Test", subheading = ["The photos will be shown to you again out of order. Try to re-assemble the grid from memory."], caption = "Step 3 of 3") %}
+    <div class="button-wrapper">
+        <button class="button" id="start-button">
+            Start
+        </button>
+    </div>
+    {% endcall %}
+{% endblock main %}

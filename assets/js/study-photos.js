@@ -1,43 +1,14 @@
-/* global Turbolinks, Image */
+/* global Turbolinks */
 
 'use strict'
 
-const loadAudio = require('./shared/audio')
 const events = require('./shared/events')
+const loadAudio = require('./shared/audio')
 const setModal = require('./shared/modal')
+const study = require('./shared/study')
 const Timer = require('./shared/timer')
 
 const internals = {}
-
-internals.wait = ms => new Promise(resolve => setTimeout(resolve, ms))
-
-/**
- * Prepare photos for trial
- * @param {string} url
- */
-internals.preparePhotos = urls => {
-  const waitForPhotoNoRetry = url => {
-    return new Promise((resolve, reject) => {
-      const img = new Image()
-      img.onload = () => resolve()
-      img.onerror = reject
-      img.src = url
-    })
-  }
-  const waitForPhoto = async (url, attempt = 0) => {
-    try {
-      return await waitForPhotoNoRetry(url)
-    } catch (error) {
-      if (attempt > 2) {
-        console.warn(`[S3RP][Study Photos] Image at URL ${url} failed to load after ${attempt} attempts`)
-        throw error
-      }
-      await internals.wait(0.3 * (2 ** (attempt - 1)) * 1000) // Retry wait time used by Ky module
-      return waitForPhoto(url, attempt + 1)
-    }
-  }
-  return Promise.all(urls.map(url => waitForPhoto(url)))
-}
 
 /**
  * Prepare audio for trial
@@ -76,42 +47,9 @@ internals.prepare = async trial => {
   const photoUrls = trial.photos.map(photo => photo.path)
   const [song] = await Promise.all([
     internals.prepareSong(songUrl),
-    internals.preparePhotos(photoUrls)
+    study.preparePhotos(photoUrls)
   ])
   return { song }
-}
-
-/**
- * Return a promise that resolves when the start button is pressed
- */
-internals.startButtonPressed = () => {
-  return new Promise(resolve => {
-    const button = document.getElementById('start-button')
-    events.once(button, 'click', resolve)
-  })
-}
-
-/**
- * Close the splash screen and show main content instead
- */
-internals.dismissSplashScreen = () => {
-  const hideSplash = () => {
-    const elements = [
-      document.querySelector('.splash'),
-      document.querySelector('.button-wrapper')
-    ]
-    elements.forEach(element => {
-      element.classList.add('hidden')
-    })
-  }
-  const showPageContent = () => {
-    const header = document.querySelector('.study-header')
-    header.classList.remove('study-header--hidden')
-    const content = document.querySelector('.study-content')
-    content.classList.remove('study-content--hidden')
-  }
-  hideSplash()
-  showPageContent()
 }
 
 /**
@@ -128,7 +66,7 @@ internals.navigateToNextStep = () => {
  */
 internals.runTrial = async (song) => {
   const timer = new Timer()
-  internals.dismissSplashScreen()
+  study.dismissSplashScreen()
   song.play()
   await timer.run()
   song.pause()
@@ -152,7 +90,7 @@ internals.init = async () => {
   }
   console.log('[S3RP][Study Photos] Running')
   const trialReadyPromise = internals.prepare(window.TRIAL_DESCRIPTION)
-  await internals.startButtonPressed()
+  await study.startButtonPressed()
   try {
     const { song } = await trialReadyPromise
     await internals.runTrial(song)
