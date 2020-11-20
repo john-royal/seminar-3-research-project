@@ -12,12 +12,12 @@
     <header class="study-header study-header--hidden">
         <div class="study-header__content">
             <div class="study-header__content-left">
-                <p class="text-xs sm:text-sm font-semibold tracking-wider leading-tight uppercase text-gray-400">Step 1 of 3
+                <p class="study-header__caption">Step 1 of 3
                 </p>
-                <h1 class="text-2xl sm:text-3xl font-semibold leading-tight text-gray-900">
+                <h1 class="study-header__title">
                     Study Photos
                 </h1>
-                <p class="text-lg sm:text-xl font-regular leading-tight text-gray-500">Try to memorize what you see.</p>
+                <p class="study-header__subtitle">Try to memorize what you see.</p>
             </div>
             <div class="study-header__content-right">
                 {{ components.timer(label="Photos will be hidden in", minutes=timer.length, redirect_to=timer.redirect) }}
