@@ -1,7 +1,7 @@
 'use strict'
 
-const MINUTES_IN_STEP_1 = 1 / 6
-const MINUTES_IN_STEP_2 = 1 / 6
+const MINUTES_IN_STEP_1 = 1
+const MINUTES_IN_STEP_2 = 3
 
 const S = require('fluent-schema')
 const util = require('../util')
@@ -77,7 +77,36 @@ Routes.postMemoryTest = {
       leftover: request.body.leftover
     }
     await participant.save()
-    return { status: 'success', data: {} }
+    return {
+      status: 'success',
+      data: participant.trials[i].testResult
+    }
+  }
+}
+
+/** @type {import('fastify').RouteOptions} */
+Routes.getEndOfTrialSplash = {
+  method: 'GET',
+  path: '/trials/:trial/complete',
+  handler (request, reply) {
+    /** @type {import('../models/Participant')} */
+    const participant = request.participant
+    const trialNumber = Number(request.params.trial)
+    const i = participant.trials.findIndex(trial => trial.number === trialNumber)
+    const result = participant.trials[i].testResult
+    const nextTrial = trialNumber === request.participant.trials.length ? null : trialNumber + 1
+    const context = {
+      trial: `Trial ${trialNumber} of ${request.participant.trials.length}`,
+      caption: nextTrial ? `${request.participant.trials.length - trialNumber} Trials Remaining` : null,
+      heading: `Finished Trial ${trialNumber}`,
+      subheading: [
+        `You missed ${result.missed} photos and got ${result.correct} photos correct.`,
+        nextTrial ? 'When you\'re ready, click Next to begin the next trial.' : 'Thank you for participating in our study.'
+      ],
+      nextTrialUrl: nextTrial ? `/trials/${nextTrial}/study-photos` : null
+    }
+    console.dir(context)
+    return reply.view('trial-complete', context)
   }
 }
 

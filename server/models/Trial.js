@@ -35,6 +35,16 @@ class Trial {
       this.song = new Song(this.song)
     }
   }
+
+  get testResult () {
+    let correct = 0
+    for (let i = 0; i < this.photos.length; i++) {
+      if (this.photos[i].number === this.test.recalled[i]) {
+        correct++
+      }
+    }
+    return { correct, missed: 16 - correct }
+  }
 }
 
 /** @enum {string} */

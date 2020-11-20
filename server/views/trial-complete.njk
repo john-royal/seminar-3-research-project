@@ -1,0 +1,18 @@
+{% set page_title = heading %}
+{% extends "shared/layout.njk" %}
+
+{% block main %}
+    {% call components.splash(
+        heading = heading,
+        subheading = subheading,
+        caption = caption
+    ) %}
+    {% if nextTrialUrl %}
+    <div class="button-wrapper">
+        <a href="{{ nextTrialUrl }}" class="button" id="start-button">
+            Next
+        </a>
+    </div>
+    {% endif %}
+    {% endcall %}
+{% endblock main %}

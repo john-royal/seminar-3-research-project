@@ -133,6 +133,14 @@ internals.attachEventListenerToSlot = slot => {
   events.lifetime(slot, 'mousedown', handleMouseDown)
 }
 
+/**
+ * Navigate to next step
+ */
+internals.navigateToNextStep = () => {
+  const nextUrl = window.location.href.replace('memory-test', 'complete')
+  Turbolinks.visit(nextUrl)
+}
+
 internals.submitTestResults = async () => {
   if (window.location.href !== internals.href) {
     console.log(`[S3RP][Memory Test] Location changed from "${internals.href}", not attempting to submit test results`)
@@ -164,6 +172,7 @@ internals.submitTestResults = async () => {
       throw new Error('Unexpected response from server')
     }
     console.log(response)
+    internals.navigateToNextStep()
   } catch (error) {
     console.log('[S3RP][Memory Test] Error submitting test results')
     console.error(error)
