@@ -4,6 +4,15 @@ const ky = require('ky/umd')
 const events = require('./events')
 const setModal = require('./modal')
 
+function isValid (element) {
+  if (!element.name || !element.value) {
+    return false
+  } else if (element.type === 'radio' && !element.checked) {
+    return false
+  }
+  return true
+}
+
 function initializeForm (form, action, callback) {
   const submit = async () => {
     console.log(`[S3RP][Form:${action}] Submitting`)
@@ -13,7 +22,7 @@ function initializeForm (form, action, callback) {
     const elements = form.elements
     const formData = {}
     for (const element of elements) {
-      if (element.name && element.value) {
+      if (isValid(element)) {
         formData[element.name] = element.value
       }
       element.disabled = true
