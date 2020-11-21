@@ -206,7 +206,7 @@ internals.init = async () => {
 
   console.log('[S3RP][Memory Test] Preparing')
   const trialReadyPromise = internals.prepare(window.TRIAL_DESCRIPTION)
-  await study.startButtonPressed()
+  await study.startButtonPressed(button)
   button.classList.add('button--loading')
   console.log('[S3RP][Memory Test] Button pressed')
   try {
