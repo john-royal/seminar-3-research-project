@@ -30,6 +30,7 @@
     "normalize-email": "^1.1.1",
     "nunjucks": "^3.2.2",
     "point-of-view": "^4.6.0",
+    "ua-parser-js": "^0.7.22",
     "uuid": "^8.3.1"
   },
   "devDependencies": {
