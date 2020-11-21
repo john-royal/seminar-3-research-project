@@ -72,11 +72,11 @@ Routes.postMemoryTest = {
     /** @type {import('../models/Participant')} */
     const participant = request.participant
     const i = participant.trials.findIndex(trial => trial.number === Number(request.params.trial))
-    participant.trials[i].test = {
+    await participant.saveResultForTrial(request.params.trial, {
       recalled: request.body.recalled,
       leftover: request.body.leftover
-    }
-    await participant.save()
+    })
+    request.log.info({ event: 'memory-test', result: participant.trials[i].testResult, participant })
     return {
       status: 'success',
       data: participant.trials[i].testResult

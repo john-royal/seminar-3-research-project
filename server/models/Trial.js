@@ -24,11 +24,11 @@ class Trial {
     this.song = input.song || null
     /** @type {Photo[]}  */
     this.photos = input.photos
-    this.test = input.test || {
+    this.test = {
       /** @type {number[]}  */
-      recalled: new Array(input.photos.length).fill(null),
+      recalled: input.test ? input.test.recalled || [] : [],
       /** @type {number[]}  */
-      leftover: []
+      leftover: input.test ? input.test.leftover || [] : []
     }
 
     if (this.song && !(this.song instanceof Song)) {

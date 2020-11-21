@@ -35,21 +35,32 @@ class Participant {
         enumerable: false,
         value: saveFunction
       },
-      save: {
-        enumerable: false,
-        value: this.save.bind(this)
-      },
       generateTrials: {
         enumerable: false,
         value: this.generateTrials.bind(this)
+      },
+      saveResultForTrial: {
+        enumerable: false,
+        value: this.saveResultForTrial.bind(this)
+      },
+      save: {
+        enumerable: false,
+        value: this.save.bind(this)
       }
     })
   }
 
   async generateTrials () {
-    assert.equal(this.trials.length, 0, 'Trials already generated')
     assert(this.survey, 'Survey must be complete before generating trials')
     this.trials = Trial.generate(this.survey)
+    await this.save()
+  }
+
+  async saveResultForTrial (trialNumber, { recalled, leftover }) {
+    trialNumber = Number(trialNumber)
+    const index = this.trials.findIndex(trial => trial.number === trialNumber)
+    assert.notEqual(index, -1, `Cannot find trial ${trialNumber}`)
+    this.trials[index].test = { recalled, leftover }
     await this.save()
   }
 
