@@ -2,10 +2,7 @@
 {% extends "shared/layout.njk" %}
 
 {% block main %}
-    {% call components.splash(heading = "Effects of Music Genre on Memory and Recollection", subheading = [
-        "For this study, you will complete a few trials of a task meant to test your memory and recollection.",
-        "This will take about 15 minutes."
-    ]) %}
+    {% call components.splash(heading = "Effects of Music Genre on Memory and Recollection", subheading = ["For this study, you will complete a few trials of a task meant to test your memory and recollection.", "This will take less than 20 minutes."]) %}
     {{ components.link(destination="/register/profile", label="Start") }}
     {% endcall %}
 {% endblock main %}
