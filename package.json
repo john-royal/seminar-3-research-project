@@ -27,9 +27,11 @@
     "fluent-schema": "^1.0.5",
     "keyv": "^4.0.3",
     "keyv-file": "^0.2.0",
+    "knex": "^0.21.12",
     "normalize-email": "^1.1.1",
     "nunjucks": "^3.2.2",
     "point-of-view": "^4.6.0",
+    "sqlite3": "^5.0.0",
     "ua-parser-js": "^0.7.22",
     "uuid": "^8.3.1"
   },
