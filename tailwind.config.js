@@ -2,7 +2,7 @@
 
 module.exports = {
   purge: [
-    './server/views/**/*.njk'
+    './app/views/**/*.njk'
   ],
   plugins: [
     require('@tailwindcss/forms'),
