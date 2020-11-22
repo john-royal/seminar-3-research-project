@@ -1,3 +1,4 @@
+/* global Audio */
 'use strict'
 
 /**

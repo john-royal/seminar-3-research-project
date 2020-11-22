@@ -124,9 +124,9 @@ module.exports = async function (fastify, options) {
     done()
   })
   for (const route of Object.values(Routes)) {
-    route.schema = Object.assign({}, route.schema, {
+    route.schema = {
       params: S.object().prop('trial', S.number().enum([1, 2, 3, 4]).required())
-    })
+    }
     fastify.route(route)
   }
 }

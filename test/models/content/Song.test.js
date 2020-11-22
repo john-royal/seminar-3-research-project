@@ -1,7 +1,7 @@
 'use strict'
 
 const t = require('tap')
-const { Song, Genre } = require('../../../server/models/content') // eslint-disable-line no-unused-vars
+const { Song, Genre } = require('../../../app/models/content') // eslint-disable-line no-unused-vars
 
 t.test('gets song from requested genre', t => {
   t.plan(Genre.all.length)

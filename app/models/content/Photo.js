@@ -17,7 +17,7 @@ class Photo {
 }
 
 Photo.all = (() => {
-  const directory = path.join(__dirname, '../../../public/images')
+  const directory = path.join(__dirname, '../../../resources/images')
   return fs.readdirSync(directory).map(photo => new Photo(photo))
 })()
 

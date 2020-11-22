@@ -2,7 +2,7 @@
 
 const Keyv = require('keyv')
 const t = require('tap')
-const Participant = require('../../server/models/Participant')
+const Participant = require('../../app/models/Participant')
 
 t.beforeEach((done, t) => {
   t.context.keyv = new Keyv()

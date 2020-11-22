@@ -1,7 +1,7 @@
 'use strict'
 
 const t = require('tap')
-const { Trial, Survey, content: { Genre } } = require('../../server/models') // eslint-disable-line no-unused-vars
+const { Trial, Survey, content: { Genre } } = require('../../app/models') // eslint-disable-line no-unused-vars
 
 const PREFERRED_GENRE = Genre.HIP_HOP_RAP
 

@@ -1,7 +1,7 @@
 'use strict'
 
 const t = require('tap')
-const Genre = require('../../../server/models/content/Genre')
+const Genre = require('../../../app/models/content/Genre')
 
 t.test('selects random genre', t => {
   // When

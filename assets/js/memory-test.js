@@ -1,3 +1,4 @@
+/* global Turbolinks */
 'use strict'
 
 const ky = require('ky/umd')

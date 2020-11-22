@@ -19,7 +19,7 @@ module.exports = fp(async function (fastify, opts) {
 
   // Serve static assets
   fastify.register(FastifyStatic, {
-    root: path.join(__dirname, '../../public'),
+    root: path.join(__dirname, '../../resources'),
     prefix: '/static',
     decorateReply: false
   })

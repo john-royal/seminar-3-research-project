@@ -1,7 +1,7 @@
 'use strict'
 
 const t = require('tap')
-const util = require('../server/util')
+const util = require('../app/util')
 
 class ExampleClass {
   constructor (number) {

@@ -1,7 +1,7 @@
 'use strict'
 
 const t = require('tap')
-const Photo = require('../../../server/models/content/Photo')
+const Photo = require('../../../app/models/content/Photo')
 
 t.test('returns requested number of photos', t => {
   // Given

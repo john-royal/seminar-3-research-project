@@ -2,7 +2,7 @@
 
 const { strict: assert } = require('assert')
 const { getRandomElementFromArray } = require('../../util')
-const songs = require('../../../public/songs/songs.json')
+const songs = require('../../../resources/songs/songs.json')
 
 class Song {
   /**
