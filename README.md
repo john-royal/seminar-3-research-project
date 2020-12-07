@@ -1,15 +1,3 @@
-# 🚀 Welcome to your new awesome project!
+# Seminar 3 Research Project Website
 
-This project has been created using **webpack scaffold**, you can now run
-
-```
-npm run build
-```
-
-or
-
-```
-yarn build
-```
-
-to bundle your application
+This is the source code for the website we used to collect data for our Seminar 3 research project. It's not pretty, but it works!
