@@ -34,6 +34,25 @@ class Trial {
     if (this.song && !(this.song instanceof Song)) {
       this.song = new Song(this.song)
     }
+
+    Object.defineProperty(this, 'isPending', { value: this.isPending.bind(this) })
+    Object.defineProperty(this, 'getScore', { value: this.getScore.bind(this) })
+  }
+
+  isPending () {
+    return this.test.recalled.length === 0 && this.test.leftover.length === 0
+  }
+
+  getScore () {
+    if (this.isPending()) { return null }
+
+    let score = 0
+    for (let i = 0; i < this.photos.length; i++) {
+      if (this.photos[i].number === this.test.recalled[i]) {
+        score++
+      }
+    }
+    return score
   }
 
   get testResult () {
